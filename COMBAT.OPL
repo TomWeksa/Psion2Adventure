@@ -1,116 +1,25 @@
 combat:
 
-LOCAL tPos%, sPos%, c%, success%, damage%
-
 PRINT "There's an enemy!"
-
-DO
-
-    PRINT "Your Health: "; plHealt%
-    PRINT "Enemy Health: "; enHealt%
-    GET    
-    CLS
-
     PRINT "Enemy: "; enName$
     PRINT "Health: "; enHealt%
     PRINT "Attack: "; enAtt%
-    PRINT "Defense: "; enDef%
     GET
+    REM Further combat setup here - run or fight?
     CLS
-
-    menu%=MENU("Fight, Run")
+          menu%=MENU("Fight, Run")
     IF menu% = 1 REM Fight
       CLS
       PRINT "Battle mechanics"
-      REM bit4% = 0
-      REM recode: REM recodes the tile using the decoded bitx%'s
-      REM chngmap:(px%, py%, tChar$) REM re-writes the map tile with no enemy (bit 4 changed to 0)
-    GET
-
-
-REM added this block below from COMB
-
-  REM Generate random enemy position between 4 and 16
-  tPos% = 4 + (RND*13)  REM 4 is the start, 13 is the range size
-  sPos% = 1
-
-  REM Draw the target on the first line
-  AT tPos%, 2
-  PRINT "X"
-
-DO
-  c% = 0
-  DO
-  
-    REM Clear previous sword position
-    AT sPos%, 1
-    PRINT " "
-    REM Update sword position
-    sPos% = sPos% + 1
-    IF sPos% > 20 
-      sPos% = 1  REM Reset to start
-    ENDIF
-    REM Draw sword at new position
-    AT sPos%, 1
-    PRINT "A"
-    REM Delay for visibility
-    PAUSE 5
-    c% = c% + 1
-
-  UNTIL KEY OR c% = 30  REM Wait for key press or timeout
-
-  REM Determine success
-  success% = ABS(sPos% - tPos%) <= 2  REM Success range - on either side of the X (2 means 5 hit boxes)
-
-  REM Display result
-  IF success% 
-    PRINT "Hit!"
-    REM Calculate damage here
-    damage% = plAtt% - enDef%
-    PRINT "You hit for "; damage%
-    enHealt% = enHealt% - damage%
-GET
-CLS
-  ELSE
-    PRINT "Miss!"
-    PRINT "The enemy hits you!"
-    damage% = enAtt% - plDef%
-    plHealt% = plHealt% - damage%
-GET
-CLS
-  ENDIF
-
-  REM Clear any remaining keypress
-  WHILE KEY$ <> ""
-  ENDWH
-
-
-UNTIL plHealt% < 1 OR enHealt% < 1
-
-REM added this block above from COMB
-
-
+   bit4% = 0
+   GET
     ELSEIF menu% = 2 REM Run
       CLS
       PRINT "Run mechanics"
    bit4% = 0
-   BREAK
-   GET
+   Get
 
     ELSE
       state% = 2 REM Goes to in game menu - breaks from combat without resetting bit4
-      BREAK
     ENDIF
-UNTIL plHealt% < 1 OR enHealt% < 1
-
-REM Check who won
-IF plHealt% < 1
-    PRINT "You have been defeated."
-ELSEIF enHealt% > 0
-    PRINT "You got away!"
-ELSE
-    PRINT "Enemy defeated!"
-ENDIF
-
-GET
  

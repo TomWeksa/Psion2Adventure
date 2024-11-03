@@ -4,13 +4,13 @@ game:
 
   GLOBAL state%, map$(4,20), x%, y%, randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
 
-  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%, andRes%
+  GLOBAL andRes%
+  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%
+  GLOBAL enName$(10), enHealt%, enAtt%, enType%
 
-  GLOBAL enName$(10), enHealt%, enAtt%, enDef%, enType%
+  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%
 
-  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%
-
-REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moves will count player moves, for game info. plMaxHe is player max health and will be used for calculating/displaying player stats in bar or fractional health e.g 3/10
+REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moveswill count player moves,for game info
   
 
   state% = 0  REM State: INIT for game menu launch
@@ -20,7 +20,7 @@ DO
   IF state% = 0
       REM Main menu
       CLS
-      menu%=MENU("Newgame,Draw,XY,XY+Draw,DecTile,Newgame,Continue,Decode,Exit")
+      menu%=MENU("Newgame,Draw,XY,XY+Draw,DecTile,Newgame,Continue,Decode,Exit,Load")
     IF menu% = 1
       state% = 1
     ELSEIF menu% = 2
@@ -39,6 +39,8 @@ DO
       state% = 8
     ELSEIF menu% = 9
       state% = 99
+    ELSEIF menu% =10
+      state% = 12
     ELSE
       state% = 99
     ENDIF
@@ -48,12 +50,16 @@ DO
 
     newgame:
     state% = 9  REM Change state to setup tile
+    plMaxHe% = plHealt% REM sets max health as starting health
+    startX% = px% REM sets the start X and Y
+    startY% = py%
+    
 
   ELSEIF state% = 2
       REM In game menu
 
       CLS
-      menu%=MENU("Map,Area,Inventory,Me,Exit")
+      menu%=MENU("Map,Area,Inventory,Me,Exit,Save")
       
         IF menu% = 1 REM Map
         state% = 6 REM Draw map
@@ -72,6 +78,10 @@ DO
 
         ELSEIF menu% = 5 REM Doesn't exist yet
         state% = 99
+
+        ELSEIF menu% = 6 REM Player stats
+        state% = 11
+        
         ELSE
         state% = 6 REM Continue game
       ENDIF
@@ -168,6 +178,19 @@ CLS
       GET
 CLS
 state% = 2 REM back to in game menu
+
+ELSEIF state% = 11
+
+  savegame:
+  CLS
+  state% = 2 REM back to in game menu
+
+ELSEIF state% = 12
+
+  loadgame:
+  CLS
+  state% = 2 REM back to in game menu
+
 
 ENDIF
 
