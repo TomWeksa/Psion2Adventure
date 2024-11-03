@@ -1,0 +1,28 @@
+newgame:
+
+REM This creates a new world map, populating map$ and finally sets the player position
+
+PRINT "Building world..."
+REM Build the map - this state will be run once at the beginning of the game. All init is done here
+
+y% = 1
+WHILE y% <= 4
+map$(y%) = ""
+x% = 1
+WHILE x% <= 20
+randVal% = 32 + (RND * 224)  REM Get a random integer between 32 and 255
+map$(y%) = map$(y%) + CHR$(randVal%)
+x% = x% + 1
+ENDWH
+y% = y% + 1
+ENDWH
+
+REM Initialise the player position, random but biased to the north west quarter
+px% = (RND * 5) + 1 REM init player x
+py% = (RND * 2) + 1 REM init player y
+
+
+plHealt% = 10
+plAtt% = 2
+plDef% = 2
+plMoves% = 0 REM Initialise player stats

@@ -1,0 +1,129 @@
+tdesc:
+
+LOCAL hr%, desc1$(35), desc2$(35), desc3$(35)
+REM used in the description of the tile
+LOCAL hour%, weather%, terrain%, randVal%
+
+REM Generate and store tile description
+
+  REM Initialize fulDesc$ to empty
+  fulDesc$ = ""
+  desc1$ = ""
+  desc2$ = ""
+  desc3$ = ""
+
+  REM Determine the current hour for time slot
+  hr% = HOUR
+  IF hr% < 6 
+    hour% = 0 REM Night
+  ELSEIF hr% < 12 
+    hour% = 1 REM Morning
+  ELSEIF hr% < 18 
+    hour% = 2 REM Day
+  ELSE
+    hour% = 3 REM Evening
+  ENDIF
+
+  REM Generate random number for description selection
+  randVal% = RND * 3
+
+  REM Weather Descriptions
+  IF bit2% = 0 
+    IF randVal% = 0 
+ desc1$ = "under clear skies"
+    ELSEIF randVal% = 1 
+ desc1$ = "with gentle breezes"
+    ELSE desc1$ = "in warm sunlight"
+    ENDIF
+  ELSE
+    IF randVal% = 0 
+ desc1$ = "amidst a brewing storm"
+    ELSEIF randVal% = 1 
+ desc1$ = "under heavy rain"
+    ELSE desc1$ = "with thunder echoing"
+    ENDIF
+  ENDIF
+
+  REM Generate random number for description selection
+  randVal% = RND * 3
+
+
+  REM Terrain Descriptions
+  REM Mountains
+  IF andRes% = 3
+  
+    IF randVal% = 0 
+ desc2$ = "serene mountain peak" 
+    ELSEIF randVal% = 1 
+ desc2$ = "peaceful mountain side" 
+    desc2$ = "majestic cliffs"
+    ENDIF
+  REM Forests
+  ELSEIF andRes% = 0
+  
+    IF randVal% = 0 
+ desc2$ = "tranquil forest glade"
+    ELSEIF randVal% = 1 
+ desc2$ = "lively woodland clearing"
+    ELSE desc2$ = "whispering grove"
+    ENDIF
+  REM Deserts
+  ELSEIF andRes% = 1 
+  
+    IF randVal% = 0 
+ desc2$ = "vast serene desert"
+    ELSEIF randVal% = 1 
+ desc2$ = "endless peaceful dunes"
+    ELSE desc2$ = "quiet sands"
+    ENDIF
+  REM Plains
+  ELSEIF andRes% = 2 
+  
+    IF randVal% = 0 
+ desc2$ = "gentle plains"
+    ELSEIF randVal% = 1 
+ desc2$ = "inviting fields"
+    ELSE desc2$ = "calm grasslands"
+    ENDIF
+  ENDIF
+
+
+  REM Generate random number for description selection
+  randVal% = RND * 3
+
+  REM Time of Day Descriptions
+  IF hour% = 0 
+  
+    IF randVal% = 0 
+ desc3$ = "beneath the moon's glow"
+    REM ELSEIF randVal% = 1 
+ REM desc3$ = "in the quiet of night"
+    ELSE desc3$ = "under starlit skies"
+    ENDIF
+  ELSEIF hour% = 1 
+  
+    IF randVal% = 0 
+ desc3$ = "with the first rays of morning"
+    REM ELSEIF randVal% = 1 
+ REM desc3$ = "as the dawn breaks"
+    ELSE desc3$ = "with a fresh morning breeze"
+    ENDIF
+  ELSEIF hour% = 2 
+  
+    IF randVal% = 0 
+ desc3$ = "under the bright day sun"
+    REM ELSEIF randVal% = 1 
+ REM desc3$ = "during the midday warmth"
+    ELSE desc3$ = "in the full swing of day"
+    ENDIF
+  ELSEIF hour% = 3 
+  
+    IF randVal% = 0 
+ desc3$ = "in the calm of the evening"
+    REM ELSEIF randVal% = 1 
+ REM desc3$ = "as dusk falls"
+    ELSE desc3$ = "under the twilight sky"
+    ENDIF
+  ENDIF
+
+  fulDesc$ = desc1$ + " " + desc2$ + " " + desc3$

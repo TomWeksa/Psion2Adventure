@@ -1,0 +1,176 @@
+game:
+
+  GLOBAL fulDesc$(250)
+
+  GLOBAL state%, map$(4,20), x%, y%, randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
+
+  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%, andRes%
+
+  GLOBAL enName$(10), enHealt%, enAtt%, enDef%, enType%
+
+  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%
+
+REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moves will count player moves, for game info. plMaxHe is player max health and will be used for calculating/displaying player stats in bar or fractional health e.g 3/10
+  
+
+  state% = 0  REM State: INIT for game menu launch
+
+DO
+
+  IF state% = 0
+      REM Main menu
+      CLS
+      menu%=MENU("Newgame,Draw,XY,XY+Draw,DecTile,Newgame,Continue,Decode,Exit")
+    IF menu% = 1
+      state% = 1
+    ELSEIF menu% = 2
+      state% = 2
+    ELSEIF menu% = 3
+      state% = 3
+    ELSEIF menu% = 4
+      state% = 4
+    ELSEIF menu% = 5
+      state% = 5
+    ELSEIF menu% = 6
+      state% = 6
+    ELSEIF menu% = 7  
+      state% = 6
+    ELSEIF menu% = 8
+      state% = 8
+    ELSEIF menu% = 9
+      state% = 99
+    ELSE
+      state% = 99
+    ENDIF
+
+  ELSEIF state% = 1
+  CLS
+
+    newgame:
+    state% = 9  REM Change state to setup tile
+
+  ELSEIF state% = 2
+      REM In game menu
+
+      CLS
+      menu%=MENU("Map,Area,Inventory,Me,Exit")
+      
+        IF menu% = 1 REM Map
+        state% = 6 REM Draw map
+
+        ELSEIF menu% = 2 REM Area
+          CLS
+          PRINT fulDesc$ REM Print the tile description
+          GET
+        state% = 2 REM Return to this menu
+
+        ELSEIF menu% = 3 REM Inventory
+        state% = 2 REM return to this menu, does not exist
+
+        ELSEIF menu% = 4 REM Player stats
+        state% = 10
+
+        ELSEIF menu% = 5 REM Doesn't exist yet
+        state% = 99
+        ELSE
+        state% = 6 REM Continue game
+      ENDIF
+      
+
+  ELSEIF state% = 3
+      REM Set the player position (px% and py%)
+      CLS
+      PRINT "Enter x position"
+      INPUT px%
+      PRINT "Enter y position"
+      INPUT py%
+      CLS
+      PRINT "x " ; px%
+      PRINT "y " ; py%
+      GET
+      state% = 0  REM Change state to MENU
+
+  ELSEIF state% = 4 
+
+
+      state% = 0  REM Change state to MENU
+
+  ELSEIF state% = 5
+
+
+      state% = 0  REM Change state to MENU
+
+  ELSEIF state% = 6
+      REM Draw the play map and handle inputs
+
+      CLS
+  drwmap:
+    REM Superimpose the player on the decoded map
+    AT px%, py%
+    PRINT "X"
+
+
+    REM COMBAT
+      IF bit4% = 1
+        CLS
+        combat:
+      endif
+
+    REM Read WASD key input for movement
+    
+    movement: REM waits for a keypress, updates player pos and changes state value 
+    
+    CLS
+
+
+ELSEIF state% = 7
+
+
+  state% = 0  REM Return to the main menu
+
+
+ELSEIF state% = 8
+
+
+  state% = 0  REM Return to the main menu
+
+
+ELSEIF state% = 9
+REM landing on the tile setup - combat, npc, weather setting, description
+
+  CLS
+
+  REM decode the player tile
+
+  decode:(px%,py%)
+
+  REM Call TDESC
+
+  tdesc: REM tile description generation
+
+  
+  PRINT fulDesc$ REM Print the tile description
+  GET
+  CLS
+
+  IF bit4% = 1  
+    ensetup: REM Combat event setup
+  ENDIF
+  state% = 6
+  
+
+ELSEIF state% = 10 REM Expected to be called ONLY from the in game menu - will go back to the in game menu after running
+CLS
+      PRINT "Health: "; plHealt%
+      PRINT "Attack: "; plAtt%
+      PRINT "Defence: "; plDef%
+      PRINT "Moves: "; plMoves% 
+      GET
+CLS
+state% = 2 REM back to in game menu
+
+ENDIF
+
+  UNTIL state% = 99
+PRINT "Closing game"
+PAUSE 50
