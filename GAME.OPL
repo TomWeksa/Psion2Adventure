@@ -1,14 +1,13 @@
 game:
 
-  GLOBAL fulDesc$(250)
+  GLOBAL fulDesc$(107)
 
-  GLOBAL state%, map$(4,20), x%, y%, randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
+  GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%, x%, y%
 
-  GLOBAL andRes%
+  GLOBAL biome%
   GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%
   GLOBAL enName$(10), enHealt%, enAtt%, enType%
-
-  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%
+  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%, diff%
 
 REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moveswill count player moves,for game info
   
@@ -20,27 +19,13 @@ DO
   IF state% = 0
       REM Main menu
       CLS
-      menu%=MENU("Newgame,Draw,XY,XY+Draw,DecTile,Newgame,Continue,Decode,Exit,Load")
+      menu%=MENU("Newgame,Load,Exit")
     IF menu% = 1
       state% = 1
     ELSEIF menu% = 2
-      state% = 2
-    ELSEIF menu% = 3
-      state% = 3
-    ELSEIF menu% = 4
-      state% = 4
-    ELSEIF menu% = 5
-      state% = 5
-    ELSEIF menu% = 6
-      state% = 6
-    ELSEIF menu% = 7  
-      state% = 6
-    ELSEIF menu% = 8
-      state% = 8
-    ELSEIF menu% = 9
-      state% = 99
-    ELSEIF menu% =10
       state% = 12
+    ELSEIF menu% = 3
+      state% = 99
     ELSE
       state% = 99
     ENDIF
@@ -146,7 +131,12 @@ ELSEIF state% = 8
 
 
 ELSEIF state% = 9
+
 REM landing on the tile setup - combat, npc, weather setting, description
+
+  REM calculate difficulty based distance between the player's starting position and corrent position
+
+  diff% = ABS(px%-startX%)+ABS(py%-startY%)
 
   CLS
 
@@ -175,6 +165,11 @@ CLS
       PRINT "Attack: "; plAtt%
       PRINT "Defence: "; plDef%
       PRINT "Moves: "; plMoves% 
+      GET
+      PRINT "Difficulty: "; diff% 
+      PRINT "Location X: "; px% 
+      PRINT "Location Y: "; py% 
+      PRINT "Hour: "; HOUR 
       GET
 CLS
 state% = 2 REM back to in game menu
