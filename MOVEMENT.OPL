@@ -1,30 +1,32 @@
 movement:
-
+mstart::
 key% = GET
-    IF key% = ASC("W")  REM Move up
+    IF key% = 3  REM Move up
       IF py% > 1
         py% = py% - 1
         plMoves% = plMoves% +1
         state% = 9
       ENDIF
-    ELSEIF key% = ASC("S")  REM Move down
+    ELSEIF key% = 4  REM Move down
       IF py% < 4 
         py% = py% + 1
         plMoves% = plMoves% +1
         state% = 9
       ENDIF
-    ELSEIF key% = ASC("A")  REM Move left
+    ELSEIF key% = 5  REM Move left
       IF px% > 1 
         px% = px% - 1
         plMoves% = plMoves% +1
         state% = 9
       ENDIF
-    ELSEIF key% = ASC("D")  REM Move right
+    ELSEIF key% = 6  REM Move right
       IF px% < 20 
         px% = px% + 1
         plMoves% = plMoves% +1
         state% = 9
       ENDIF
-    ELSEIF key% = ASC("M")  REM In game menu
+    ELSEIF key% = ASC("M") REM OR 2  REM In game menu
       state% = 2
+    ELSE
+      GOTO mstart::
     ENDIF  REM End of key input handling
