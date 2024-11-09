@@ -1,4 +1,4 @@
-chngmap:(x%, y%, newChar$)
+chngmap:(x%, y%, newChar$(1))
   LOCAL oldLine$(20), lPart$(20), rPart$(20), rLen%
 
   REM Get the current line from the map

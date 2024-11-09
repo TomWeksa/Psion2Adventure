@@ -5,7 +5,7 @@ REM used in the description of the tile
 LOCAL hour%, weather%, terrain%, randVal%
 
 REM Generate and store tile description
-REM We can only have 80 characters in fulDesc! Don't foret the 2 spaces
+REM We can only have 80 characters in fulDesc! Don't forget the 2 spaces
 REM bit2 is good/bad weather
 
   REM Initialize fulDesc$ to empty
@@ -14,6 +14,12 @@ REM bit2 is good/bad weather
   desc2$ = ""
   desc3$ = ""
 
+
+          tChar$ = MID$(map$(py%), px%, 1)
+          tAscii% = ASC(tChar$) - 32
+          biome% = tAscii% AND 3  REM Isolating the last two LSBs
+          
+    
   REM Determine the current hour for time slot. hour% is used so the windows of the day can be easily changed in one place
 
     IF HOUR < 6 
@@ -54,7 +60,7 @@ REM bit2 is good/bad weather
   REM Terrain Descriptions
 
     REM Mountains
-    IF biome% = 3
+    IF biome% = 2
         IF randVal% = 0 
             desc2$ = "a mountain peak stands watch" 
         ELSEIF randVal% = 1 
@@ -83,7 +89,7 @@ REM bit2 is good/bad weather
     ENDIF
 
     REM Plains
-    ELSEIF biome% = 2 
+    ELSEIF biome% = 3 
          IF randVal% = 0 
              desc2$ = "rolling plains dance"
          ELSEIF randVal% = 1 

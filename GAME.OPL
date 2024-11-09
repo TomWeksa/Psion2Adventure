@@ -1,13 +1,15 @@
-game:
+GAME:
 
   GLOBAL fulDesc$(107)
 
-  GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%, x%, y%
+  GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
+  REM GLOBAL x%, y%
 
   GLOBAL biome%
-  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%
+  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
   GLOBAL enName$(10), enHealt%, enAtt%, enType%
   GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%, diff%
+
 
 REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moveswill count player moves,for game info
   
@@ -34,6 +36,7 @@ DO
   CLS
 
     newgame:
+ splash:
     state% = 9  REM Change state to setup tile
     plMaxHe% = plHealt% REM sets max health as starting health
     startX% = px% REM sets the start X and Y
@@ -96,20 +99,24 @@ DO
       state% = 0  REM Change state to MENU
 
   ELSEIF state% = 6
-      REM Draw the play map and handle inputs
+      
+     REM COMBAT
+      IF bit4% = 1
+        CLS
+        combat:
+      endif  
+   
+   
+   REM Draw the play map and handle inputs
 
       CLS
-  drwmap:
+      drwmap:
     REM Superimpose the player on the decoded map
     AT px%, py%
     PRINT "X"
 
 
-    REM COMBAT
-      IF bit4% = 1
-        CLS
-        combat:
-      endif
+
 
     REM Read WASD key input for movement
     
@@ -166,12 +173,17 @@ CLS
       PRINT "Defence: "; plDef%
       PRINT "Moves: "; plMoves% 
       GET
+   CLS
       PRINT "Difficulty: "; diff% 
       PRINT "Location X: "; px% 
       PRINT "Location Y: "; py% 
       PRINT "Hour: "; HOUR 
-      GET
-CLS
+   GET
+      CLS
+   PRINT bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%
+   PRINT biome%
+   GET
+   CLS
 state% = 2 REM back to in game menu
 
 ELSEIF state% = 11

@@ -5,7 +5,7 @@ decode:(decodex%,decodey%)
   tAscii% = ASC(tChar$) - 32  REM Convert to ASCII value and adjust for usable range
 
   REM Extract each bit
-  bit0% = tAscii% AND 1  REM Terrain Least significant bit
+  bit0% = (tAscii% AND 1)  REM Terrain Least significant bit
   bit1% = (tAscii% AND 2) / 2 REM Terrain
   bit2% = (tAscii% AND 4) / 4 REM Weather good= 0, bad = 1
   bit3% = (tAscii% AND 8) / 8 
