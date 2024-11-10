@@ -1,4 +1,4 @@
-newGAME:
+newgame:
 
 LOCAL i% REM for looping through biome decoding of neihbours
 LOCAL neih$(8,1)
@@ -16,6 +16,7 @@ LOCAL newcode%
 LOCAL newChar$(1)
 LOCAL rnd% REM to decide 
 LOCAL progr%
+
 
 REM This creates a new world map, populating map$ and finally sets the player position
 REM using px and py as counters before they are used in the game
@@ -156,7 +157,12 @@ py% = 1
   REM the pxpy data needs to be modified and written to the map
    
  
-  REM maybe add a chance of the adjustment happening or skipping this section
+  REM a chance of the adjustment happening or skipping this section
+  
+  randVal% = (RND * 10)
+  IF randval% < 7
+   REM do the smoothing for the tile
+
   
   REM taking the adjacent tile data and extracting the biome bits (AND with 3)
   i% = 1
@@ -248,6 +254,10 @@ REM Update the map with the new character at position px%, py%
 
 CHNGMAP:(px%,py%,newChar$)
 REM MID$(map$(py%), px%, 1) = newChar$
+
+  ELSE
+   REM don't do the smoothing and keep the original random tile
+  ENDIF
     px% =  px% + 1
  
 
@@ -258,8 +268,6 @@ REM MID$(map$(py%), px%, 1) = newChar$
     
  ENDWH
  py% = py% + 1
- 
- 
  
  ENDWH
  

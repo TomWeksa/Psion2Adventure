@@ -16,7 +16,7 @@ CLS
 AT 2,1
 PRINT "You hold in your"
 AT 1,2
-PRINT "hand, a window to a"
+PRINT "hand, a portal to a"
 AT 2,3
 PRINT "world of magic and"
 AT 5,4
@@ -28,11 +28,11 @@ CLS
 AT 1,1
 PRINT "You will travel over"
 AT 1,2
-PRINT "these lands using a"
+PRINT "these lands using"
 AT 3,3
-PRINT "map using this"
+PRINT "this strange device"
 AT 3,4
-PRINT "strange device"
+PRINT "before you"
 
 GET
 CLS

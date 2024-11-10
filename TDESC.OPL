@@ -5,7 +5,6 @@ REM used in the description of the tile
 LOCAL hour%, weather%, terrain%, randVal%
 
 REM Generate and store tile description
-REM We can only have 80 characters in fulDesc! Don't forget the 2 spaces
 REM bit2 is good/bad weather
 
   REM Initialize fulDesc$ to empty
@@ -151,3 +150,5 @@ REM bit2 is good/bad weather
   ENDIF
 
   fulDesc$ = desc1$ + " " + desc2$ + " " + desc3$
+  
+  

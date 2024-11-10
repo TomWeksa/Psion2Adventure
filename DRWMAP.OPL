@@ -9,7 +9,6 @@ y% = 1
           WHILE x% <= 20
           tChar$ = MID$(map$(y%), x%, 1)
           tAscii% = ASC(tChar$) - 32
-          REM biomeult
           bi% = tAscii% AND 3  REM Isolating the last two LSBs
 
 

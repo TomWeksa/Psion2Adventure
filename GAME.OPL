@@ -1,4 +1,4 @@
-GAME:
+game:
 
   GLOBAL fulDesc$(107)
 
@@ -53,10 +53,10 @@ DO
         state% = 6 REM Draw map
 
         ELSEIF menu% = 2 REM Area
-          CLS
-          PRINT fulDesc$ REM Print the tile description
-          GET
-        state% = 2 REM Return to this menu
+            CLS
+            disptext: (fulDesc$,4) REM this has a GET at the end of it
+            CLS
+            state% = 2 REM Return to this menu
 
         ELSEIF menu% = 3 REM Inventory
         state% = 2 REM return to this menu, does not exist
@@ -155,9 +155,7 @@ REM landing on the tile setup - combat, npc, weather setting, description
 
   tdesc: REM tile description generation
 
-  
-  PRINT fulDesc$ REM Print the tile description
-  GET
+  disptext: (fulDesc$,4) REM this has a GET at the end of it
   CLS
 
   IF bit4% = 1  

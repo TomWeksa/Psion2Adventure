@@ -1,0 +1,17 @@
+INV:
+
+  GLOBAL invname$(10,15) REM names of inventory stuff
+  GLOBAL invcount%(10) REM count of each inventory item
+
+
+  invname%(1) = "Vampire tooth"
+  invname%(2) = "Dragon scale"
+  invname%(3) = "Orc skull" 
+  invname%(4) = "Goblin acid"
+  invname%(5) = "Red toadstool"
+  invname%(6) = ""
+  invname%(7) = ""
+  invname%(8) = ""
+  invname%(9) = ""
+  invname%(10) = ""
+  
