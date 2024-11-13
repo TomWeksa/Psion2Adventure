@@ -1,4 +1,4 @@
-smooth:
+ smooth:
 
 py% = 1
     WHILE py% <= 4
@@ -46,14 +46,14 @@ py% = 1
          REM Bottom left
     ELSEIF py% = 4 AND px% = 1
 
-            neih$(1) = MID$(map$(py%-1), px%-1, 1)
+            neih$(1) = MID$(map$(py%-1), px%, 1)
             neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%, 1)
-            neih$(6) = MID$(map$(py%), px%-1, 1)
+            neih$(3) = MID$(map$(py%-1), px%+1, 1)      
+            neih$(4) = MID$(map$(py%), px%, 1)
+            neih$(5) = MID$(map$(py%), px%+1, 1)
+            neih$(6) = MID$(map$(py%), px%, 1)
             neih$(7) = MID$(map$(py%), px%, 1)
-            neih$(8) = MID$(map$(py%), px%, 1)
+            neih$(8) = MID$(map$(py%), px%+1, 1)
    
    REM top edge no corners
        ELSEIF (py% = 1) AND (px% > 1) AND (px% < 20)
