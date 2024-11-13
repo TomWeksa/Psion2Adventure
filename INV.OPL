@@ -1,7 +1,9 @@
 INV:
 
+REM This is currently unused by the game and is not needed - placeholder only!
+
   GLOBAL invname$(10,15) REM names of inventory stuff
-  GLOBAL invcount%(10) REM count of each inventory item
+  GLOBAL invcnt%(10) REM count of each inventory item
 
 
   invname%(1) = "Vampire tooth"
