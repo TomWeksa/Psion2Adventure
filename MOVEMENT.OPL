@@ -25,7 +25,7 @@ key% = GET
         plMoves% = plMoves% +1
         state% = 9
       ENDIF
-    ELSEIF key% = ASC("M") OR 2  REM In game menu
+    ELSEIF key% = ASC("M") OR key% = 2  REM In game menu
       state% = 2
     ELSE
       GOTO mstart::

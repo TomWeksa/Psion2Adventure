@@ -38,7 +38,7 @@ GET
 CLS
 
 AT 2,1
-PRINT "The 'X' on the map"
+PRINT "The '*' on the map"
 AT 2,2
 PRINT "is you. Move using"
 AT 3,3

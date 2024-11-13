@@ -1,21 +1,21 @@
-newgame:
+newGAME:
 
-LOCAL i% REM for looping through biome decoding of neihbours
-LOCAL neih$(8,1)
-LOCAL lAscii%(8)
-LOCAL nebiome%(8)
-LOCAL b0%, b1%, b2%, b3%
-LOCAL mCount%
-LOCAL mBiome%
-LOCAL nBiome%
-LOCAL tCount%
-LOCAL cChar$(1)
-LOCAL cAscii%
-LOCAL cBiome%
-LOCAL newcode%
-LOCAL newChar$(1)
-LOCAL rnd% REM to decide 
-LOCAL progr%
+GLOBAL i% REM for looping through biome decoding of neihbours
+GLOBAL neih$(8,2)
+GLOBAL lAscii%(8)
+GLOBAL nebiome%(8)
+GLOBAL b0%, b1%, b2%, b3%
+GLOBAL mCount%
+GLOBAL mBiome%
+GLOBAL nBiome%
+GLOBAL tCount%
+GLOBAL cChar$(1)
+GLOBAL cAscii%
+GLOBAL cBiome%
+GLOBAL newcode%
+GLOBAL newChar$(1)
+GLOBAL rnd% REM to decide 
+GLOBAL progr%
 
 
 REM This creates a new world map, populating map$ and finally sets the player position
@@ -25,252 +25,30 @@ REM create a world then smooth it out with averaging
 REM go through each tile and look at its neihbours
 REM 70% to count each type of biome and change it to the most common or do nothing
 
-PRINT "Building first world"
 
+
+PRINT "Building first world"
 py% = 1
-    WHILE py% <= 4
-       map$(py%) = ""
-       px% = 1
-        WHILE px% <= 20
-           randVal% = 32 + (RND * 224)  REM Get a random integer between 32 and 255
-           map$(py%) = map$(py%) + CHR$(randVal%)
-           px% = px% + 1
-        ENDWH
-       py% = py% + 1
-    ENDWH
- 
+WHILE py% <= 4
+   REM map$(py%) = ""
+   px% = 1
+      WHILE px% <= 20
+         randVal% = 32 + (RND * 224) 
+         REM Get a random integer between 32 and 255
+         map$(py%) = map$(py%) + CHR$(randVal%)
+         px% = px% + 1
+      ENDWH
+   py% = py% + 1
+ENDWH
+
 REM The world map is populated randomly
 REM Now go through each tile and see what its neihbours are and change them
 
 CLS
+
 PRINT "Smoothing world"
+smooth:
 
-
-py% = 1
-    WHILE py% <= 4
-    px% = 1
-     WHILE px% <= 20
-  
-  
-          REM Top left
-          IF py% = 1 AND px% = 1 REM or just roll it against 1,1
-            neih$(1) = MID$(map$(py%), px%, 1)
-            neih$(2) = MID$(map$(py%), px%, 1)
-            neih$(3) = MID$(map$(py%), px%+1, 1)      
-            neih$(4) = MID$(map$(py%), px%, 1)
-            neih$(5) = MID$(map$(py%), px% + 1, 1)
-            neih$(6) = MID$(map$(py%+1), px%, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%+1, 1) 
-   
-   REM Top right
-    ELSEIF py% = 1 AND px% = 20
-            neih$(1) = MID$(map$(py%), px%-1, 1)
-            neih$(2) = MID$(map$(py%), px%, 1)
-            neih$(3) = MID$(map$(py%), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px% + 1, 1)
-            neih$(6) = MID$(map$(py%+1), px%-1, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%, 1)
-   
-      REM Bottom right
-    ELSEIF py% = 4 AND px% = 20
-            neih$(1) = MID$(map$(py%-1), px%-1, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%, 1)
-            neih$(6) = MID$(map$(py%), px%-1, 1)
-            neih$(7) = MID$(map$(py%), px%, 1)
-            neih$(8) = MID$(map$(py%), px%, 1)
-   
-         REM Bottom left
-    ELSEIF py% = 4 AND px% = 1
-            neih$(1) = MID$(map$(py%-1), px%-1, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%, 1)
-            neih$(6) = MID$(map$(py%), px%-1, 1)
-            neih$(7) = MID$(map$(py%), px%, 1)
-            neih$(8) = MID$(map$(py%), px%, 1)
-   
-   REM top edge no corners
-       ELSEIF py% = 1 AND px% > 1 AND px% < 20
-            neih$(1) = MID$(map$(py%), px%, 1)
-            neih$(2) = MID$(map$(py%), px%, 1)
-            neih$(3) = MID$(map$(py%), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%+1, 1)
-            neih$(6) = MID$(map$(py%+1), px%-1, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%+1, 1)
-   
-   REM left edge no corners
-       ELSEIF py% > 1 AND py% <4 AND px% = 1
-            neih$(1) = MID$(map$(py%-1), px%, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%+1%, 1)      
-            neih$(4) = MID$(map$(py%), px%, 1)
-            neih$(5) = MID$(map$(py%), px%+1, 1)
-            neih$(6) = MID$(map$(py%+1), px%, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%+1, 1)  
-   REM right edge no corners
-       ELSEIF py% > 1 AND py% < 4 AND px% = 20
-            neih$(1) = MID$(map$(py%-1), px%-1, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%, 1)
-            neih$(6) = MID$(map$(py%+1), px%-1, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%, 1)
-
-   
-   REM bottom edge no corners
-       ELSEIF py% = 4 AND px% > 1 AND px% < 20
-            neih$(1) = MID$(map$(py%-1), px%, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%+1, 1)
-            neih$(6) = MID$(map$(py%), px%-1, 1)
-            neih$(7) = MID$(map$(py%), px%, 1)
-            neih$(8) = MID$(map$(py%), px%+1, 1)
-   
-   REM everything else - by now everything edge related will have been caught by the above
-         ELSEIF py% > 1 AND py% < 4 AND px% > 1 AND px% < 20
-            neih$(1) = MID$(map$(py%-1), px%-1, 1)
-            neih$(2) = MID$(map$(py%-1), px%, 1)
-            neih$(3) = MID$(map$(py%-1), px%+1, 1)      
-            neih$(4) = MID$(map$(py%), px%-1, 1)
-            neih$(5) = MID$(map$(py%), px%+1, 1)
-            neih$(6) = MID$(map$(py%+1), px%-1, 1)
-            neih$(7) = MID$(map$(py%+1), px%, 1)
-            neih$(8) = MID$(map$(py%+1), px%+1, 1)
-    ENDIF
- 
-  REM at this point, px% and py% neighbours are loaded in to neih$
-  REM neighbours need to be decoded and the biomes counted and 'winner' identified
-  REM the pxpy data needs to be modified and written to the map
-   
- 
-  REM a chance of the adjustment happening or skipping this section
-  
-  randVal% = (RND * 10)
-  IF randval% < 7
-   REM do the smoothing for the tile
-
-  
-  REM taking the adjacent tile data and extracting the biome bits (AND with 3)
-  i% = 1
-        WHILE i% <= 8
-    lAscii%(i%) = ASC(neih$(i%)) REM converting to number so biome can be anded
-          nebiome%(i%) = lAscii%(i%) AND 3 REM Isolating the last two LSBs
-           i% = i% + 1
-        ENDWH
-  
-REM Initialize counts for each biome type
-REM b0% counts biome 0, b1% counts biome 1, etc.
-b0% = 0
-b1% = 0
-b2% = 0
-b3% = 0
-
-REM Loop through the nebiome% array to count occurrences
-i% = 1
-WHILE i% <= 8
-    REM For each biome type, increment its count
-    IF nebiome%(i%) = 0 
-        b0% = b0% + 1  REM Increment count for biome 0
-    ELSEIF nebiome%(i%) = 1 
-        b1% = b1% + 1  REM Increment count for biome 1
-    ELSEIF nebiome%(i%) = 2 
-        b2% = b2% + 1  REM Increment count for biome 2
-    ELSEIF nebiome%(i%) = 3 
-        b3% = b3% + 1  REM Increment count for biome 3
-    ENDIF
-    i% = i% + 1
-ENDWH
-
-REM Now find which biome has the highest count
-REM Initialize mCount% and mBiome% with biome 0
-mCount% = b0%
-mBiome% = 0
-tCount% = 1  REM Start with one biome having mCount%
-
-REM Compare counts of other biomes to find the maximum
-REM Compare biome 1
-IF b1% > mCount% 
-    mCount% = b1%     REM Update mCount% with new highest count
-    mBiome% = 1       REM Update mBiome% with biome 1
-    tCount% = 1       REM Reset tie count to 1
-ELSEIF b1% = mCount% 
-    tCount% = tCount% + 1  REM Increment tie count
-ENDIF
-
-REM Compare biome 2
-IF b2% > mCount% 
-    mCount% = b2%     REM Update mCount% with new highest count
-    mBiome% = 2       REM Update mBiome% with biome 2
-    tCount% = 1       REM Reset tie count to 1
-ELSEIF b2% = mCount% 
-    tCount% = tCount% + 1  REM Increment tie count
-ENDIF
-
-REM Compare biome 3
-IF b3% > mCount% 
-    mCount% = b3%     REM Update mCount% with new highest count
-    mBiome% = 3       REM Update mBiome% with biome 3
-    tCount% = 1       REM Reset tie count to 1
-ELSEIF b3% = mCount% 
-    tCount% = tCount% + 1  REM Increment tie count
-ENDIF
-
-REM Now, decide whether to change the biome or keep it as is
-REM First, get the current biome at position px%, py%
-cChar$ = MID$(map$(py%), px%, 1)    REM Get current character from map
-cAscii% = ASC(cChar$)         REM Get ASCII code of the character
-cBiome% = cAscii% AND 3       REM Extract the biome bits (last two bits)
-
-REM If there is a tie, we will keep the current biome
-IF tCount% > 1 
-    REM There's a tie between biomes, so we keep the current biome
-    nBiome% = cBiome%
-ELSE
-    REM No tie, change to the most common biome
-    nBiome% = mBiome%
-ENDIF
-
-REM Now, we need to update the character code with the new biome
-REM We keep the other bits of the character unchanged
-REM Clear the last two bits and set them to nBiome%
-newcode% = (cAscii% AND (NOT 3)) OR nBiome%
-newChar$ = CHR$(newcode%)   REM Convert back to character
-
-REM Update the map with the new character at position px%, py%
-
-CHNGMAP:(px%,py%,newChar$)
-REM MID$(map$(py%), px%, 1) = newChar$
-
-  ELSE
-   REM don't do the smoothing and keep the original random tile
-  ENDIF
-    px% =  px% + 1
- 
-
-   progr% = progr%+1
- CLS
- PRINT progr% ; "/80"
- 
-    
- ENDWH
- py% = py% + 1
- 
- ENDWH
- 
 
 REM Initialise the player position, random but biased to the north west quarter
 px% = (RND * 5) + 1 REM init player x

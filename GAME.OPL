@@ -1,7 +1,7 @@
 game:
 
   GLOBAL fulDesc$(107)
-
+  GLOBAL oneChar$(1) REM used in world generation to move data about
   GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
   REM GLOBAL x%, y%
 
@@ -113,7 +113,7 @@ DO
       drwmap:
     REM Superimpose the player on the decoded map
     AT px%, py%
-    PRINT "X"
+    PRINT "*"
 
 
 
