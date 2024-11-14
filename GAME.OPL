@@ -114,11 +114,6 @@ DO
     REM Superimpose the player on the decoded map
     AT px%, py%
     PRINT "*"
-
-
-
-
-    REM Read WASD key input for movement
     
     movement: REM waits for a keypress, updates player pos and changes state value 
     
@@ -154,7 +149,6 @@ REM landing on the tile setup - combat, npc, weather setting, description
   REM Call TDESC
 
   tdesc: REM tile description generation
-
   disptext: (fulDesc$,4) REM this has a GET at the end of it
   CLS
 

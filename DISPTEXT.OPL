@@ -10,7 +10,6 @@ disptext:(str$,lines%)
   firstsp% = 0
 
 
-
  WHILE j% < lenStr%
     IF lenStr% <= 20
         PRINT str$; 
@@ -18,7 +17,7 @@ disptext:(str$,lines%)
       
     ELSE
       i% = 0
-      firstsp% = j%
+      firstsp% = j%+1
         WHILE i% < 19
         j% = j% + 1
            IF j% >= lenStr% + 1
@@ -31,9 +30,10 @@ disptext:(str$,lines%)
            ENDIF
         i% = i% + 1
         ENDWH
-
       str1$ = MID$(str$, firstsp%, lastsp%-firstsp%)
-      j% = lastsp% + 1
+      firstsp% = firstsp%-1 REM runs after the first line
+
+      j% = lastsp%
 
         IF pcount% < lines%
           PRINT str1$
