@@ -1,48 +1,124 @@
 comb:
-  LOCAL tPos%, sPos%, c%, success%
+LOCAL tPos% REM Target position
+LOCAL sPos% REM Sword position
+LOCAL c% REM Count - determines end through inaction
+LOCAL success% REM Used as a bool to determine if the enemy was hit
+LOCAL stenhe% REM Starting enemy health
+LOCAL enhe% REM Current enemy health
+LOCAL stplhe% REM Starting player health - probaby take this from the main loop
+LOCAL plhe% REM Current player health
+LOCAL hitbox% REM How wide the weapon is - the wider the easier
+LOCAL g% REM To store the user key press
+LOCAL speed% REM How fast the target moves - could be linked to difficulty
+LOCAL pldam% REM Player weapon damage
+LOCAL endam% REM Enemy weapon damage
+LOCAL r% REM Random number for chance attack
+LOCAL diff% REM difficulty modifier
 
-  tPos% = 10  REM Example target position (mid-screen)
-  sPos% = 1
+tPos% = 10  REM Example target position (mid-screen)
+sPos% = 1 
+speed% = 5 
+diff%= 70
 
-  REM Draw the target on the first line
-  AT tPos%, 2
-  PRINT "X"
+pldam% = 5
+endam% = 5
 
-  REM Sweep loop
-  
-  c% = 0
-  DO
+stenhe% = 20
+enhe% = stenhe%
+stplhe% = 20
+plhe% = stplhe%
 
-    REM Clear previous sword position
-    AT sPos%, 1
-    PRINT " "
-    REM Update sword position
-    sPos% = sPos% + 1
-    IF sPos% > 20 
-      sPos% = 1  REM Reset to start
-    ENDIF
-    REM Draw sword at new position
-    AT sPos%, 1
-    PRINT "A"
-    REM Delay for visibility
-    PAUSE 5
-    c% = c% + 1
- 
-  UNTIL KEY OR c% = 30  REM Wait for key press or timeout
-
+COMBAT::
+CLS
+AT 1,3
+PRINT "                    "
+AT 1,3
+PRINT "Player: ";plhe%;"/";stplhe%
+AT 1,4
+PRINT "                    "
+AT 1,4
+PRINT "Enemy: ";enhe%;"/";stenhe%
+REM Draw the target on the first line
+AT tPos%, 2
+PRINT "X"
+REM Sweep loop
+c% = 0
+ DO
+  REM g% = KEY
+  REM Clear previous sword position
+  AT sPos%, 1
+  PRINT " "
+  REM Update sword position
+  sPos% = sPos% + 1
+   IF sPos% > 20 
+    sPos% = 1  REM Reset to start
+   ENDIF
+  REM Draw sword at new position
+  AT sPos%, 1
+  PRINT "A"
+  REM Delay for visibility
+  PAUSE speed%
+  c% = c% + 1
+  g% = KEY
+ UNTIL g% > 0 REM OR c% = 30  REM Wait for key press or timeout
+ IF g% <> 2 
   REM Determine success
-  success% = ABS(sPos% - tPos%) <= 2  REM Success range
-
+  success% = ABS(sPos% - tPos%) <= hitbox%  REM Success range
   REM Display result
-  IF success% 
+   IF success% 
     PRINT "Hit!"
- GET
-  ELSE
+    enhe% = enhe% - pldam%
+    IF enhe%<1
+     enhe% = 0
+     AT 1,4
+     GOTO RESOLVE::
+    ELSE
+     AT 1,4
+     PRINT "                    "
+     AT 1,4
+     PRINT "Enemy: ";enhe%;"/";stenhe%
+     GET
+     GOTO COMBAT::
+    ENDIF
+   ELSE
     PRINT "Miss!"
+    r% = RND*100
+     IF r% < diff%
+      plhe% = plhe% - endam%
+       IF plhe%<1
+        plhe% = 0
+       ELSE
+        AT 1,3
+        PRINT "                    "
+        AT 1,3
+        PRINT "Player: ";plhe%;"/";stplhe%
+        GET
+        GOTO COMBAT::
+       ENDIF
+     ENDIF
+   ENDIF   
+ ELSEIF g% = 2
+  CLS
+  PRINT "Pressed ON"
+  PRINT "Call inventory"
+  GET
+  GOTO COMBAT::
+ ENDIF
+
+RESOLVE::
+CLS
+IF enhe% < 1
+ PRINT "You won!"
+ PRINT "Loot/resolution call"
  GET
-  ENDIF
-
-  REM Clear any remaining keypress
-  WHILE KEY$ <> ""
-  ENDWH
-
+ELSEIF plhe% < 1
+ PRINT "You died"
+ PRINT "Death resolution"
+ GET
+ELSE
+ PRINT "Running away!"
+ GET
+ENDIF
+ REM Clear any remaining keypress
+ WHILE KEY$ <> ""
+ ENDWH
