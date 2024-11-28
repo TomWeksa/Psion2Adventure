@@ -3,41 +3,58 @@ LOCAL tPos% REM Target position
 LOCAL sPos% REM Sword position
 LOCAL c% REM Count - determines end through inaction
 LOCAL success% REM Used as a bool to determine if the enemy was hit
-LOCAL stenhe% REM Starting enemy health
-LOCAL enhe% REM Current enemy health
-LOCAL stplhe% REM Starting player health - probaby take this from the main loop
-LOCAL plhe% REM Current player health
+LOCAL sehealt% REM Starting enemy health
+LOCAL sphealt% REM Starting player health
 LOCAL hitbox% REM How wide the weapon is - the wider the easier
 LOCAL g% REM To store the user key press
 LOCAL speed% REM How fast the target moves - could be linked to difficulty
-LOCAL pldam% REM Player weapon damage
-LOCAL endam% REM Enemy weapon damage
 LOCAL r% REM Random number for chance attack
-LOCAL diff% REM difficulty modifier
+LOCAL locdiff% REM difficulty modifier
+LOCAL m% REM menu variable
+LOCAL tmp$(14) REM Inventory return
+LOCAL enHealt REM float for some maths to determine scaled health
 
 tPos% = 10  REM Example target position (mid-screen)
 sPos% = 1 
-speed% = 5 
-diff%= 70
+locdiff%= diff%*5
 
-pldam% = 5
-endam% = 5
 
-stenhe% = 20
-enhe% = stenhe%
-stplhe% = 20
-plhe% = stplhe%
+IF diff%<5
+ speed% = 5
+ELSE
+ speed% = 25/diff%
+ENDIF
+
+REM Set enemy health based on difficulty and the master data
+
+enhealt = enHealt%
+
+enHealt = enHealt*((diff%+1)*4)/100
+enHealt% = enHealt
+
+
+REM Starting healths - for the stats display
+sehealt% = enHealt%
+
+
+
+PRINT "There's an enemy!"
+PRINT "Enemy: "; enName$
+PRINT "Health: "; enHealt%
+PRINT "Attack: "; enAtt%
+GET
+
 
 COMBAT::
 CLS
 AT 1,3
 PRINT "                    "
 AT 1,3
-PRINT "Player: ";plhe%;"/";stplhe%
+PRINT "Player: ";plHealt%;"/";plMaxHe%
 AT 1,4
 PRINT "                    "
 AT 1,4
-PRINT "Enemy: ";enhe%;"/";stenhe%
+PRINT "Enemy: ";enHealt%;"/";sehealt%
 REM Draw the target on the first line
 AT tPos%, 2
 PRINT "X"
@@ -70,24 +87,24 @@ c% = 0
   REM Display result
    IF success% 
     PRINT "Hit!"
-    enhe% = enhe% - pldam%
-    IF enhe%<1
-     enhe% = 0
+    enHealt% = enHealt% - plAtt%
+    IF enHealt%<1
+     enHealt% = 0
      AT 1,4
      GOTO RESOLVE::
     ELSE
      AT 1,4
      PRINT "                    "
      AT 1,4
-     PRINT "Enemy: ";enhe%;"/";stenhe%
+     PRINT "Enemy: ";enHealt%;"/";sehealt%
      GET
      GOTO COMBAT::
     ENDIF
    ELSE
     PRINT "Miss!"
     r% = RND*100
-     IF r% < diff%
-      plhe% = plhe% - endam%
+     IF r% < locdiff%
+      plHealt% = plHealt% - enAtt%
       AT 1,2
       PRINT "     "
       AT 1,2
@@ -95,15 +112,15 @@ c% = 0
       AT 1,3
       PRINT "                    "
       AT 1,3
-      PRINT "Player: ";plhe%;"/";stplhe%
-       IF plhe%<1
-        plhe% = 0
+      PRINT "Player: ";plHealt%;"/";plMaxHe%
+       IF plHealt%<1
+        plHealt% = 0
         GOTO RESOLVE::
        ELSE
         AT 1,3
         PRINT "                    "
         AT 1,3
-        PRINT "Player: ";plhe%;"/";stplhe%
+        PRINT "Player: ";plHealt%;"/";plMaxHe%
         GET
         GOTO COMBAT::
        ENDIF
@@ -115,22 +132,32 @@ c% = 0
    ENDIF   
  ELSEIF g% = 2
   CLS
-  PRINT "Pressed MODE"
-  PRINT "Call inventory"
-  GET
+  m%=MENU("Fight,Inventory,Run")
+  IF m% = 1
+    GOTO COMBAT::
+  ELSEIF m% = 2
+   inv:
+    REM tmp$=FromLst$:("items","Backpack","Sword")
+  ELSEIF m% = 3
+    GOTO RUNAWAY::
+  ELSE
+    GOTO COMBAT::
+  ENDIF
+
   GOTO COMBAT::
  ELSE
   GOTO COMBAT::
  ENDIF
 
+
 RESOLVE::
 CLS
-IF enhe% < 1
+IF enHealt% < 1
  PRINT "You won!"
  PRINT "Loot/resolution call"
  GET
  GOTO EXIT::
-ELSEIF plhe% < 1
+ELSEIF plHealt% < 1
  PRINT "You died"
  PRINT "Death resolution"
  GET
@@ -140,9 +167,9 @@ ENDIF
 GOTO COMBAT::
 
 RUNAWAY::
+ bit4% = 0 REM So there's no loop of combat on the tile while the player is still there and hasnot moved off
  CLS
  PRINT "Running away!"
- PRINT g%
  GET
 
 EXIT::

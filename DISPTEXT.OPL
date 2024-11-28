@@ -11,46 +11,42 @@ disptext:(str$,lines%)
 
 
  WHILE j% < lenStr%
-    IF lenStr% <= 20
-        PRINT str$; 
-        BREAK
-      
-    ELSE
-      i% = 0
-      firstsp% = j%+1
-        WHILE i% < 19
-        j% = j% + 1
-           IF j% >= lenStr% + 1
-             lastsp% = j% 
-             BREAK
-           ELSEIF MID$(str$, j%, 1) = " "
-             lastsp% = j% 
-           ELSE
-             
-           ENDIF
+  IF lenStr% <= 20
+   PRINT str$; 
+   GET
+   BREAK
+  ELSE
+   i% = 0
+   firstsp% = j%+1
+    WHILE i% < 19
+     j% = j% + 1
+      IF j% >= lenStr% + 1
+       lastsp% = j% 
+       BREAK
+      ELSEIF MID$(str$, j%, 1) = " "
+       lastsp% = j% 
+      ELSE    
+      ENDIF
         i% = i% + 1
-        ENDWH
-      str1$ = MID$(str$, firstsp%, lastsp%-firstsp%)
-      firstsp% = firstsp%-1 REM runs after the first line
-
-      j% = lastsp%
-
-        IF pcount% < lines%
-          PRINT str1$
-            IF j% >= lenStr% + 1   
-              GET
-              BREAK
-              CLS    
-
-            ENDIF 
-            pcount% = pcount% + 1 
-            IF pcount% = lines%
-              pcount% = 0
-              GET     
-              CLS
-            ENDIF    
-        ELSE
+    ENDWH
+   str1$ = MID$(str$, firstsp%, lastsp%-firstsp%)
+   firstsp% = firstsp%-1 REM runs after the first line
+   j% = lastsp%
+     IF pcount% < lines%
+      PRINT str1$
+       IF j% >= lenStr% + 1   
+        GET
+        BREAK
+        REM CLS    
+       ENDIF 
+      pcount% = pcount% + 1 
+       IF pcount% = lines%
+        pcount% = 0
+        GET     
         CLS
-        ENDIF
+       ENDIF    
+      ELSE
+      CLS
+     ENDIF
     ENDIF
  ENDWH

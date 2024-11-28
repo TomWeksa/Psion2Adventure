@@ -1,81 +1,87 @@
 game:
 
-  GLOBAL fulDesc$(107)
-  GLOBAL oneChar$(1) REM used in world generation to move data about
-  GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
-  REM GLOBAL x%, y%
+GLOBAL fulDesc$(107)
+GLOBAL oneChar$(1) REM used in world generation to move data about
+GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
+REM GLOBAL x%, y%
 
-  GLOBAL biome%
-  GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
-  GLOBAL enName$(10), enHealt%, enAtt%, enType%
-  GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%, diff%
+GLOBAL biome%
+GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
+GLOBAL enName$(10), enHealt%, enAtt%, enType%
+GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%, diff%
+GLOBAL mode% REM To hold the action type of the returned inventory item(use, drop etc)
+GLOBAL cmbstat% REM 0 when not in combat, 1 when in combat,used to display correct inventory stuff
+GLOBAL idesc$(200) REM item description used in inventory
+GLOBAL slot$(1) REM holds the slot letter (B or C) - updated every time the game is run. Could do a metal gear solid here...
 
 
 REM Player stats. Attack will be based on weapon, defense will reduce incoming damage, moveswill count player moves,for game info
   
+cmbstat% = 0 REM combat state is set to false
+state% = 0  REM State: INIT for game menu launch
 
-  state% = 0  REM State: INIT for game menu launch
+REM Determine which slot the game pack is in
+slot:
 
 DO
-
-  IF state% = 0
-      REM Main menu
-      CLS
-      menu%=MENU("Newgame,Load,Exit")
-    IF menu% = 1
-      state% = 1
-    ELSEIF menu% = 2
-      state% = 12
-    ELSEIF menu% = 3
-      state% = 99
-    ELSE
-      state% = 99
-    ENDIF
-
-  ELSEIF state% = 1
+REM ****** MAIN GAME MENU ******
+ IF state% = 0
+  REM Main menu
   CLS
+  menu%=MENU("Newgame,Load,Exit")
+  IF menu% = 1
+   state% = 1
+  ELSEIF menu% = 2
+   state% = 12
+  ELSEIF menu% = 3
+   state% = 99
+  ELSE
+   state% = 99
+  ENDIF
 
-    newgame:
- splash:
-    state% = 9  REM Change state to setup tile
-    plMaxHe% = plHealt% REM sets max health as starting health
-    startX% = px% REM sets the start X and Y
-    startY% = py%
-    
+REM ****** NEW GAME CALL ******
+ ELSEIF state% = 1
+  CLS
+  newgame:
+  splash:
+  state% = 9  REM Change state to setup tile
+  plMaxHe% = plHealt% REM sets max health as starting health
+  startX% = px% REM sets the start X and Y
+  startY% = py%
+ 
+REM ****** IN GAME MENU CALL ******   
+ ELSEIF state% = 2
+  CLS
+  menu%=MENU("Map,Area,Inventory,Me,Exit,Save")   
+   IF menu% = 1 REM Map
+    state% = 6 REM Draw map
+   ELSEIF menu% = 2 REM Area
+    CLS
+    disptext: (fulDesc$,4) REM this has a GET at the end of it
+    CLS
+    state% = 2 REM Return to this menu
 
-  ELSEIF state% = 2
-      REM In game menu
+REM ****** INVENTORY SCREEN CALL ******
+   ELSEIF menu% = 3 REM Inventory
+    inv:
+    state% = 2 REM return to game menu
 
-      CLS
-      menu%=MENU("Map,Area,Inventory,Me,Exit,Save")
-      
-        IF menu% = 1 REM Map
-        state% = 6 REM Draw map
+REM ****** PLAYER STAT MENU CALL ******
+   ELSEIF menu% = 4 REM Player stats
+    state% = 10
 
-        ELSEIF menu% = 2 REM Area
-            CLS
-            disptext: (fulDesc$,4) REM this has a GET at the end of it
-            CLS
-            state% = 2 REM Return to this menu
+   ELSEIF menu% = 5 REM Doesn't exist yet
+    state% = 99
 
-        ELSEIF menu% = 3 REM Inventory
-        state% = 2 REM return to this menu, does not exist
-
-        ELSEIF menu% = 4 REM Player stats
-        state% = 10
-
-        ELSEIF menu% = 5 REM Doesn't exist yet
-        state% = 99
-
-        ELSEIF menu% = 6 REM Player stats
-        state% = 11
+   ELSEIF menu% = 6 REM Player stats
+    state% = 11
         
-        ELSE
-        state% = 6 REM Continue game
-      ENDIF
-      
+ ELSE state% = 6 REM Continue game
+ENDIF
 
-  ELSEIF state% = 3
+REM ****** DEBUG TOOL SET PLAYER POSITION ******
+ ELSEIF state% = 3
+
       REM Set the player position (px% and py%)
       CLS
       PRINT "Enter x position"
@@ -89,110 +95,74 @@ DO
       state% = 0  REM Change state to MENU
 
   ELSEIF state% = 4 
-
-
-      state% = 0  REM Change state to MENU
+   state% = 0  REM Change state to MENU
 
   ELSEIF state% = 5
-
-
-      state% = 0  REM Change state to MENU
+   state% = 0  REM Change state to MENU
 
   ELSEIF state% = 6
-      
-     REM COMBAT
-      IF bit4% = 1
-        CLS
-        combat:
-      endif  
-   
-   
-   REM Draw the play map and handle inputs
-
-      CLS
-      drwmap:
-    REM Superimpose the player on the decoded map
-    AT px%, py%
-    PRINT "*"
-    
-    movement: REM waits for a keypress, updates player pos and changes state value 
-    
-    CLS
+   REM COMBAT
+    IF bit4% = 1
+     CLS
+     cmbstat% = 1
+     comb:
+     cmbstat% = 0
+    ENDIF
+   CLS
+   drwmap:
+   REM Superimpose the player on the decoded map
+   AT px%, py%
+   PRINT "*"   
+   movement: REM waits for a keypress, updates player pos and changes state value
+   CLS
 
 
-ELSEIF state% = 7
-
-
+ ELSEIF state% = 7
   state% = 0  REM Return to the main menu
 
-
-ELSEIF state% = 8
-
-
+ ELSEIF state% = 8
   state% = 0  REM Return to the main menu
 
-
-ELSEIF state% = 9
+REM ****** PLAYER LANDS ON A NEW TILE ******
+ ELSEIF state% = 9
 
 REM landing on the tile setup - combat, npc, weather setting, description
 
-  REM calculate difficulty based distance between the player's starting position and corrent position
+REM calculate difficulty based distance between the player's starting position and corrent position
 
   diff% = ABS(px%-startX%)+ABS(py%-startY%)
-
   CLS
-
   REM decode the player tile
-
   decode:(px%,py%)
-
-  REM Call TDESC
-
   tdesc: REM tile description generation
   disptext: (fulDesc$,4) REM this has a GET at the end of it
   CLS
-
-  IF bit4% = 1  
+   IF bit4% = 1  
     ensetup: REM Combat event setup
-  ENDIF
+   ENDIF
   state% = 6
   
+REM ****** PLAYER STATS DISPLAY ******
+ELSEIF state% = 10 
 
-ELSEIF state% = 10 REM Expected to be called ONLY from the in game menu - will go back to the in game menu after running
-CLS
-      PRINT "Health: "; plHealt%
-      PRINT "Attack: "; plAtt%
-      PRINT "Defence: "; plDef%
-      PRINT "Moves: "; plMoves% 
-      GET
-   CLS
-      PRINT "Difficulty: "; diff% 
-      PRINT "Location X: "; px% 
-      PRINT "Location Y: "; py% 
-      PRINT "Hour: "; HOUR 
-   GET
-      CLS
-   PRINT bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6%
-   PRINT biome%
-   GET
-   CLS
-state% = 2 REM back to in game menu
+plyrstat:(2)
 
+REM ****** SAVE GAME ******
 ELSEIF state% = 11
 
   savegame:
   CLS
   state% = 2 REM back to in game menu
 
+REM ****** LOAD GAME ******
 ELSEIF state% = 12
 
   loadgame:
   CLS
   state% = 2 REM back to in game menu
 
-
 ENDIF
 
-  UNTIL state% = 99
+UNTIL state% = 99
 PRINT "Closing game"
-PAUSE 50
+PAUSE -50

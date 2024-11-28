@@ -16,6 +16,26 @@ GLOBAL newcode%
 GLOBAL newChar$(1)
 GLOBAL rnd% REM to decide 
 GLOBAL progr%
+LOCAL path$(14)
+
+
+
+REM Clear any old information from old plays/saves
+CLS
+IF EXIST ("A:items")
+ DELETE "A:items"
+ PRINT "Old inv. deleted"
+ PAUSE -10
+ENDIF
+IF EXIST ("A:saveg")
+ DELETE "A:saveg"
+ PRINT "Old game deleted"
+ PAUSE -10
+ENDIF
+
+REM Set up databases to be used by the game
+path$=slot$+":items"
+COPY path$,"A:" REM 
 
 
 REM This creates a new world map, populating map$ and finally sets the player position

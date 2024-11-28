@@ -1,0 +1,2 @@
+ap:(x%,y%,z$)
+AT x%,y% :PRINT z$;

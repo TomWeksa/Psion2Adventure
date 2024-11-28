@@ -13,5 +13,6 @@ chngmap:(x%, y%, newChar$)
   lPart$ = LEFT$(oldLine$, x% - 1)  REM All characters before the position
   rPart$ = RIGHT$(oldLine$, LEN(oldLine$) - x%)  REM All characters after the position
 
+
   REM Combine the parts with the new character in the middle
-  map$(y%) = lPart$ + newChar$ + rPart$
+  map$(y%) = (lPart$ + newChar$ + rPart$)
