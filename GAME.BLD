@@ -1,23 +1,23 @@
-GAME 32
-AP OB3
-CHNGMAP OB3
-COMB OB3
-DECODE OB3
-DISPTEXT OB3
-DRWMAP OB3
-ENSETUP OB3
-FROMLST$ OB3
-GAME OB3
-INV OB3
-LOADGAME OB3
-MOVEMENT OB3
-NEWGAME OB3
-PLYRSTAT OB3
-RECODE OB3
-SAVEGAME OB3
-SLOT OB3
-SMOOTH OB3
-SPLASH OB3
-TDESC OB3
-ITEMS ODB
-TRACE66 ODB
+GAME 32         
+AP        OB3   
+CHNGMAP   OB3   
+COMB      OB3   !combat minigame
+DECODE    OB3   !decodes a character in the world map into 7 bits
+DISPTEXT  OB3   !helper fucntion to display long passages of text
+DRWMAP    OB3   !draws the map on the display
+ENSETUP   OB3   !sets up an enemy - type,hp,etc
+FROMLST$  OB3   !used for inventory handling and presentation
+GAME      OB3   !main game loop
+INV       OB3   !inventory function- deals with actions on items
+LOADGAME  OB3   !loads a save gamefile
+MOVEMENT  OB3   !handles keypresses on the world map
+NEWGAME   OB3   !starts a new game, cleans up and initialises databases
+PLYRSTAT  OB3   !function to collect and display player stats
+RECODE    OB3   !counterpart to decode, encodes the bits into a byte
+SAVEGAME  OB3   !creates a savegame file
+SLOT      OB3   !determines which slot the pack is in (B or C) 
+SMOOTH    OB3   !processes the random world map and smooths it
+SPLASH    OB3   !handles the splash screen/preamble/game introduction 
+TDESC     OB3   !generates a tile description based on tile properties
+ITEMS     ODB   !template inventory database to be copied to A
+TRACE66   ODB   !used with SLOT- name chosen because it's unique

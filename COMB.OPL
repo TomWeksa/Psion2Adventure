@@ -15,35 +15,31 @@ LOCAL tmp$(14) REM Inventory return
 LOCAL enHealt REM float for some maths to determine scaled health
 
 tPos% = 10  REM Example target position (mid-screen)
-sPos% = 1 
-locdiff%= diff%*5
+sPos% = 1 REM Starting position of the sword
+locdiff%= diff%*5 REM A difficulty integer derived from the tile's difficulty- formatted for easier use in the code
 
+REM The higher the difficulty the fatster the swordwillmove, however at the lower difficulty it's too slow - this sets the speed at 5 when the tile difficulty is below 5
 
-IF diff%<5
+IF diff%<5 
  speed% = 5
 ELSE
- speed% = 25/diff%
+ speed% = 25/diff% REM highest difficulty is about 25 so this will scale between 5 and 1 throughout the game
 ENDIF
 
 REM Set enemy health based on difficulty and the master data
-
+REM Converting to a float to allow division before going back to a rounded int
 enhealt = enHealt%
-
 enHealt = enHealt*((diff%+1)*4)/100
 enHealt% = enHealt
 
-
 REM Starting healths - for the stats display
 sehealt% = enHealt%
-
-
 
 PRINT "There's an enemy!"
 PRINT "Enemy: "; enName$
 PRINT "Health: "; enHealt%
 PRINT "Attack: "; enAtt%
 GET
-
 
 COMBAT::
 CLS
@@ -61,26 +57,24 @@ PRINT "X"
 REM Sweep loop
 c% = 0
 
- DO
-    REM Clear previous sword position
-    AT sPos%, 1
-    PRINT " "
-    REM Update sword position
-    sPos% = sPos% + 1
-    IF sPos% > 20 
-      sPos% = 1  REM Reset to start
-    ENDIF
-    REM Draw sword at new position
-    AT sPos%, 1
-    PRINT "A"
-    REM Delay for visibility
-    PAUSE speed%
-    c% = c% + 1
-    g% = KEY
+DO
+ REM Clear previous sword position
+ AT sPos%, 1
+ PRINT " "
+ REM Update sword position
+ sPos% = sPos% + 1
+  IF sPos% > 20 
+   sPos% = 1  REM Reset to start
+  ENDIF
+ REM Draw sword at new position
+ AT sPos%, 1
+ PRINT "A"
+ REM Delay for visibility
+ PAUSE speed%
+ c% = c% + 1
+ g% = KEY
  UNTIL g% > 0 
-
-
- IF g% <> 2 
+ IF g% <> 2 REM MODE button = 2
   g% = 0
   REM Determine success
   success% = ABS(sPos% - tPos%) <= hitbox%  REM Success range
@@ -134,32 +128,30 @@ c% = 0
   CLS
   m%=MENU("Fight,Inventory,Run")
   IF m% = 1
-    GOTO COMBAT::
+   GOTO COMBAT::
   ELSEIF m% = 2
    inv:
-    REM tmp$=FromLst$:("items","Backpack","Sword")
   ELSEIF m% = 3
-    GOTO RUNAWAY::
+   GOTO RUNAWAY::
   ELSE
-    GOTO COMBAT::
+   GOTO COMBAT::
   ENDIF
-
-  GOTO COMBAT::
+   GOTO COMBAT::
  ELSE
   GOTO COMBAT::
  ENDIF
-
-
 RESOLVE::
 CLS
 IF enHealt% < 1
  PRINT "You won!"
  PRINT "Loot/resolution call"
+ REM call a loot chance and generation function here
  GET
  GOTO EXIT::
 ELSEIF plHealt% < 1
  PRINT "You died"
  PRINT "Death resolution"
+ REM Call a game over function here
  GET
   GOTO EXIT::
 ENDIF
@@ -176,3 +168,4 @@ EXIT::
  REM Clear any remaining keypress
  WHILE KEY$ <> ""
  ENDWH
+ 

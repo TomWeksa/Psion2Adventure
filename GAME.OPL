@@ -1,16 +1,22 @@
-game:
+tgame:
 
 GLOBAL fulDesc$(107)
 GLOBAL oneChar$(1) REM used in world generation to move data about
-GLOBAL state%, map$(4,20), randVal%, menu%, px%, py%, tChar$(1), tAscii%, key%
-REM GLOBAL x%, y%
-
+GLOBAL state% REM The state machine of the game 
+GLOBAL map$(4,20) REM The worldmap 
+GLOBAL randVal% REM Used in NEWGAME to generate the tiles
+GLOBAL menu% REM Menu value used in this function
+GLOBAL px%, py% REM Player's current position
+GLOBAL tChar$(1), tAscii%, key%
 GLOBAL biome%
 GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
-GLOBAL enName$(10), enHealt%, enAtt%, enType%
-GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%, diff%
-GLOBAL mode% REM To hold the action type of the returned inventory item(use, drop etc)
-GLOBAL cmbstat% REM 0 when not in combat, 1 when in combat,used to display correct inventory stuff
+GLOBAL enName$(10) REM Last enerated enemy name
+GLOBAL enHealt%, enAtt% REM Stats of enemy last created
+GLOBAL enType% REM Type of enemy last created - see ENSETUP
+GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%
+GLOBAL diff% REM Difficulty factor -the higher this is the further from the starting tile the player is, used to scale the difficulty of the game
+GLOBAL mode% REM To hold the action type of the returned inventory item (use, drop etc)
+GLOBAL cmbstat% REM 0 when not in combat, 1 when in combat,used to display correct inventory stuff (items which can only be used incombat vs. all items)
 GLOBAL idesc$(200) REM item description used in inventory
 GLOBAL slot$(1) REM holds the slot letter (B or C) - updated every time the game is run. Could do a metal gear solid here...
 
