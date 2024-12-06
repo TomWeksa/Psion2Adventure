@@ -7,13 +7,16 @@ GLOBAL map$(4,20) REM The worldmap
 GLOBAL randVal% REM Used in NEWGAME to generate the tiles
 GLOBAL menu% REM Menu value used in this function
 GLOBAL px%, py% REM Player's current position
-GLOBAL tChar$(1), tAscii%, key%
+GLOBAL plweap$(13),plarm$(13) REM Players weapon and armour
+GLOBAL tChar$(1) REM Used when modifying the contents of the map by RECODE
+GLOBAL tAscii%, key%
 GLOBAL biome%
 GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
 GLOBAL enName$(10) REM Last enerated enemy name
 GLOBAL enHealt%, enAtt% REM Stats of enemy last created
 GLOBAL enType% REM Type of enemy last created - see ENSETUP
 GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%
+GLOBAL maxplh% REM max player health
 GLOBAL diff% REM Difficulty factor -the higher this is the further from the starting tile the player is, used to scale the difficulty of the game
 GLOBAL mode% REM To hold the action type of the returned inventory item (use, drop etc)
 GLOBAL cmbstat% REM 0 when not in combat, 1 when in combat,used to display correct inventory stuff (items which can only be used incombat vs. all items)
@@ -110,7 +113,7 @@ REM ****** DEBUG TOOL SET PLAYER POSITION ******
    REM COMBAT
     IF bit4% = 1
      CLS
-     cmbstat% = 1
+     cmbstat% = 1 REM used to determine if some inventory items can be used and how
      comb:
      cmbstat% = 0
     ENDIF

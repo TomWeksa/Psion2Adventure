@@ -16,12 +16,14 @@ ENDIF
 
 mode% = 1 REM init state
 
-OPEN FN$,D,No$,Lst$,Amnt%,locdesc$
+OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
 fo%=1
 mx%=count REM count returns the number of records in the current file.
 w% = 1
 dir% = 1 REM this will cause the menu filter to start in the right direction of travel(ascending from the lowest position)
 
+
+PRINT CHR$(14)
 AT 1,1
 PRINT Cat$
 REM w% current item POS
@@ -117,7 +119,15 @@ ENDIF
   AT 1,2
   PRINT CHR$(26) + "Holding " ; D.Amnt%
 
-
+  AT 10,1
+  PRINT D.caneq%
+  AT 12,1
+  PRINT D.statv%
+  AT 14,1
+  PRINT D.armour%
+  AT 16,1
+  PRINT D.weap%
+  
 g%=GET
 
 
@@ -141,6 +151,7 @@ g%=GET
 REM MODE changes the action on the item
 
 idesc$ = D.locdesc$
+equi%=D.eq%
 ENDWH
 
   IF g%=1 REM Exit

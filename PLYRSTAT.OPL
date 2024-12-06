@@ -5,8 +5,14 @@ REM st% is the state GAME.OPL will return to after this runs
 REM if st% is 0, it will not set a state and continue after the call
 
 CLS
-PRINT "Health: "; plHealt%
+PRINT "Health: "; plHealt%;"/";maxplh%
 PRINT "Attack: "; plAtt%
+PRINT "Defence: "; plDef%
+PRINT "Moves: "; plMoves% 
+GET
+CLS
+PRINT "Weapon: "; plweap$
+PRINT "Armour: "; plarm$
 PRINT "Defence: "; plDef%
 PRINT "Moves: "; plMoves% 
 GET

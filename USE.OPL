@@ -1,6 +1,8 @@
-inv:
-
-REM mode 1 = use, 2 = drop, 3 = information 
+use:
+REM Handles the effects of using an item
+REM Applying items to the player
+REM The function will have an item name passed to it and will take care of the effects
+REM Will use INVTOOL to check for equipped status
 
 LOCAL tmp$(14)
 REM LOCAL m%
@@ -17,7 +19,6 @@ GLOBAL fail$(40)
 GLOBAL damage%
 GLOBAL def%
 GLOBAL locdesc$(200)
-GLOBAL equi% REM Debug to see if items are being updated
 
 TOP::
 ONERR PROBLEM::
@@ -26,21 +27,22 @@ mode% = 1
 WHILE mode% <> 4
  tmp$=FromLst$:("items","Backpack","Sword")
  CLS
+
+ REM AT 1,4
+ REM PRINT "Rtn: ";tmp$+CHR$(26)
  
+
+REM PRINT "Mode: " ;mode%
+
  IF mode% = 1
-  invtool:(3,tmp$,0) 
- PRINT "Do Use ";tmp$
+  PRINT "Do Use ";tmp$
   GET
   
  ELSEIF mode% = 2
-  invtool:(1,tmp$,-1)
   PRINT "Do Drop ";tmp$
   GET
   
  ELSEIF mode% = 3
-  CLS
-  PRINT equi%
-  GET
   CLS
   disptext:(idesc$,4) 
   CLS

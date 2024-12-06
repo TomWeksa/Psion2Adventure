@@ -143,10 +143,11 @@ DO
 RESOLVE::
 CLS
 IF enHealt% < 1
- PRINT "You won!"
- PRINT "Loot/resolution call"
+ loot:(enName$)
  REM call a loot chance and generation function here
- GET
+ bit4% = 0 
+ recode: REM recoding the tile with bit 4 as 0 effectively clearing the enemy
+ chngmap:(px%,py%,tChar$)
  GOTO EXIT::
 ELSEIF plHealt% < 1
  PRINT "You died"

@@ -1,6 +1,6 @@
 GAME 32         
-AP        OB3   
-CHNGMAP   OB3   
+AP        OB3   !A tool written by Martin combining AT and PRINT
+CHNGMAP   OB3   !A function to change a character in the map
 COMB      OB3   !combat minigame
 DECODE    OB3   !decodes a character in the world map into 7 bits
 DISPTEXT  OB3   !helper fucntion to display long passages of text
@@ -9,7 +9,9 @@ ENSETUP   OB3   !sets up an enemy - type,hp,etc
 FROMLST$  OB3   !used for inventory handling and presentation
 GAME      OB3   !main game loop
 INV       OB3   !inventory function- deals with actions on items
+INVTOOL   OB3   !inventory tool, add, remove or count an item
 LOADGAME  OB3   !loads a save gamefile
+LOOT      OB3   !Deals with loot generation and addition to inventory
 MOVEMENT  OB3   !handles keypresses on the world map
 NEWGAME   OB3   !starts a new game, cleans up and initialises databases
 PLYRSTAT  OB3   !function to collect and display player stats

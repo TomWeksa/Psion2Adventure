@@ -53,8 +53,17 @@ REM Initialise the player position, random but biased to the north west quarter
 px% = (RND * 5) + 1 REM init player x
 py% = (RND * 2) + 1 REM init player y
 
+REM ensure no combat on the starting tile
+decode:(px%,py%)
+bit4% = 0 
+recode: REM recoding the tile with bit 4 as 0 effectively clearing the enemy
+chngmap:(px%,py%,tChar$)
+
 
 plHealt% = 10
+maxplh% = plHealt%
+plweap$="Fists"
+plarm$="None"
 plAtt% = 2
-plDef% = 2
+plDef% = 0
 plMoves% = 0 REM Initialise player stats
