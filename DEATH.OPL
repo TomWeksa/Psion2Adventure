@@ -1,0 +1,16 @@
+death:(st$)
+
+REM This is called if the player dies and st% is the creature that killed the player
+CLS
+disptext:("You died.",4)
+GET
+
+CLS
+disptext:("Your consciousness returns to your real world.",4)
+GET
+ IF EXIST ("A:saveg1")
+  disptext:("You can load your saved game or start another!",4)
+ ENDIF
+STOP
+
+

@@ -1,0 +1,206 @@
+cursus:
+
+GLOBAL fulDesc$(107)
+GLOBAL oneChar$(1) REM used in world generation to move data about
+GLOBAL state% REM The state machine of the game 
+GLOBAL map$(4,20) REM The worldmap 
+GLOBAL randVal% REM Used in NEWGAME to generate the tiles and LOADGAME as a success/fail flag
+GLOBAL menu% REM Menu value used in this function
+
+REM Savegame data
+GLOBAL px%, py% REM Player's current position
+GLOBAL plHealt%, plAtt%, plDef%, plMoves%, plMaxHe%, startX%, startY%
+GLOBAL plweap$(14),plarm$(14) REM Players weapon and armour
+
+
+GLOBAL tChar$(1) REM Used when modifying the contents of the map by RECODE
+GLOBAL tAscii%, key%
+GLOBAL biome% REM Set in TDESC
+GLOBAL bit0%, bit1%, bit2%, bit3%, bit4%, bit5%, bit6% REM decoded tile the player is currently on
+
+REM enemy setup 
+GLOBAL enName$(13) REM Last generated enemy name
+GLOBAL enHealt%, enAtt% REM Stats of enemy last created
+GLOBAL enType% REM Type of enemy last created - see ENSETUP
+
+
+GLOBAL diff% REM Difficulty factor -the higher this is the further from the starting tile the player is, used to scale the difficulty of the game
+GLOBAL mode% REM To hold the action type of the returned inventory item (use, drop etc)
+GLOBAL cmbstat% REM 0 when not in combat, 1 when in combat,used to display correct inventory stuff (items which can only be used incombat vs. all items)
+GLOBAL idesc$(200) REM item description used in inventory
+GLOBAL slot$(1) REM holds the slot letter (B or C) - updated every time the game is run. Could do a metal gear solid here...
+
+REM Quest information - quests will run in a state machine style in their own function
+GLOBAL quest1%
+GLOBAL q1delay%
+GLOBAL quest2%
+GLOBAL q2delay%
+GLOBAL quest3%
+GLOBAL hsprx% REM Hotspring loc
+GLOBAL hspry%
+GLOBAL hspr% REM Hotspring active
+
+
+cmbstat% = 0 REM combat state is set to false
+state% = 0  REM State: INIT for game menu launch
+
+
+DO
+REM ****** MAIN GAME MENU ******
+ IF state% = 0
+  REM Main menu
+  CLS
+  PRINT "       CURSUS"
+  AT 1,2
+  menu%=MENUN(2,"New game,Load game,About,Exit")
+  IF menu% = 1
+   state% = 1
+  ELSEIF menu% = 2
+   state% = 12
+  ELSEIF menu% = 3
+   state% = 4
+  ELSEIF menu% = 4
+   state% = 99
+  ELSE
+   state% = 99
+  ENDIF
+
+REM ****** NEW GAME CALL ******
+ ELSEIF state% = 1
+  CLS
+  newgame:
+  splash:
+  state% = 9  REM Change state to setup tile
+ 
+REM ****** IN GAME MENU CALL ******   
+ ELSEIF state% = 2
+  CLS
+  menu%=MENU("Map,Area,Inventory,Me,Exit,Save")   
+   IF menu% = 1 REM Map
+    state% = 6 REM Draw map
+   ELSEIF menu% = 2 REM Area
+    CLS
+    disptext: (fulDesc$,4) REM this has a GET at the end of it
+    CLS
+    state% = 2 REM Return to this menu
+
+REM ****** INVENTORY SCREEN CALL ******
+   ELSEIF menu% = 3 REM Inventory
+    inv:
+    state% = 2 REM return to game menu
+
+REM ****** PLAYER STAT MENU CALL ******
+   ELSEIF menu% = 4 REM Player stats
+    state% = 10
+
+   ELSEIF menu% = 5 REM Doesn't exist yet
+    state% = 99
+
+   ELSEIF menu% = 6 REM Player stats
+    state% = 11
+        
+ ELSE state% = 6 REM Continue game
+ENDIF
+
+REM ****** DEBUG TOOL SET PLAYER POSITION ******
+ ELSEIF state% = 3
+
+      REM Set the player position (px% and py%)
+      CLS
+      PRINT "Enter x position"
+      INPUT px%
+      PRINT "Enter y position"
+      INPUT py%
+      CLS
+      PRINT "x " ; px%
+      PRINT "y " ; py%
+      GET
+      state% = 0  REM Change state to MENU
+
+REM ****** ABOUT ******
+  ELSEIF state% = 4 
+   about:
+   state% = 0  REM Change state to MENU
+
+  ELSEIF state% = 5
+   state% = 0  REM Change state to MENU
+
+  ELSEIF state% = 6
+   REM COMBAT CHECK
+    IF bit4% = 1
+     CLS
+     cmbstat% = 1 REM used to determine if some inventory items can be used and how
+     comb:
+     cmbstat% = 0
+    ENDIF
+   CLS
+   drwmap:
+   REM Superimpose the player on the decoded map
+   AT px%, py%
+   PRINT "*"   
+   movement: REM waits for a keypress, updates player pos and changes state value
+   CLS
+
+
+ ELSEIF state% = 7
+  state% = 0  REM Return to the main menu
+
+ ELSEIF state% = 8
+  state% = 0  REM Return to the main menu
+
+REM ****** PLAYER LANDS ON A NEW TILE ******
+ ELSEIF state% = 9
+
+REM landing on the tile setup - combat, npc, weather setting, description
+
+IF (px%=hsprx%) AND (py%=hspry%) 
+ REM call hotspring 
+ hsp:
+ tdesc: REM tile description generation
+ELSE
+ diff% = ABS(px%-startX%)+ABS(py%-startY%)
+ CLS
+ REM decode the player tile
+ decode:(px%,py%)
+ tdesc: REM tile description generation
+ disptext: (fulDesc$,4) REM this has a GET at the end of it
+ CLS
+  IF hspr%=0 REM allows the introductory NPC to find you
+   hsp: REM progress hsp
+  ENDIF
+ quest1: REM progress quest1
+ quest2: REM progress quest2
+  IF bit4% = 1  
+   ensetup: REM Combat event setup
+  ENDIF
+ENDIF
+state% = 6
+  
+REM ****** PLAYER STATS DISPLAY ******
+ELSEIF state% = 10 
+
+plyrstat:(2)
+
+REM ****** SAVE GAME ******
+ELSEIF state% = 11
+
+  savegame:
+  CLS
+  state% = 2 REM back to in game menu
+
+REM ****** LOAD GAME ******
+ELSEIF state% = 12
+
+  loadgame:
+  CLS
+   IF randVal%=1 REM no save game found
+    state%=0 REM Main menu
+   ELSE
+    quest3: REM call this first
+    state% = 9 REM Land on the tile again
+   ENDIF
+ENDIF
+
+UNTIL state% = 99
+PRINT "Closing game"
+PAUSE -50

@@ -3,8 +3,12 @@ REM Df$ is to set the cursor on that item in the list if it exists
 LOCAL FN$(14),fo%,mx%,l%,g%,v%,w%,p%,m$(6)
 LOCAL dir% REM Direction of the menu
            REM -1 is up, +1 is down
+LOCAL held% REM How many types of items held
+LOCAL icnt% REM To count through a loop
 
 ONERR PROBLEM::
+
+
 
 FN$=":"+FName$ REM formats the text to be used in OPEN to use the correct memory slot
 
@@ -18,21 +22,44 @@ mode% = 1 REM init state
 
 OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
 fo%=1
-mx%=count REM count returns the number of records in the current file.
+
 w% = 1
 dir% = 1 REM this will cause the menu filter to start in the right direction of travel(ascending from the lowest position)
 
+mx%=count REM count returns the number of records in the current file.
+
+held%=0
+icnt%=1
+FIRST
+ DO
+  IF D.Amnt%>=1
+   held%=held%+1
+  ENDIF
+  icnt%=icnt%+1
+  NEXT
+ UNTIL icnt%=mx%
 
 PRINT CHR$(14)
 AT 1,1
 PRINT Cat$
-REM w% current item POS
-REM v% next item POS
-REM p% previous item POS
-REM mx% max. POS
+
+
+IF held%=0
+ AT 1,3
+ PRINT "Your pack"
+ AT 1,4
+ PRINT "is empty!"
+ CLOSE
+ GET
+ mode%=4
+ RETURN
+ENDIF
+
 
 
 WHILE g%<>1 AND g%<>13 REM Until ON/CLEAR OR EXE
+
+
 
 POSITION w%
 
@@ -102,13 +129,17 @@ ENDIF
 
   dir% = 0 REM Init dir% ready for use 
 
+
+IF held%>1
   POSITION v% REM Next focus
   AT 1,4
   PRINT CHR$(23)+"      "+LEFT$(D.Lst$,14)
-
+ENDIF
 
   POSITION w% REM the item at POS w%
   AT 1,3
+
+
   IF mode% = 1
     PRINT CHR$(22) + "Use > "+ LEFT$(D.Lst$,14)
   ELSEIF mode% = 2
@@ -118,19 +149,10 @@ ENDIF
   ENDIF
   AT 1,2
   PRINT CHR$(26) + "Holding " ; D.Amnt%
-
-  AT 10,1
-  PRINT D.caneq%
-  AT 12,1
-  PRINT D.statv%
-  AT 14,1
-  PRINT D.armour%
-  AT 16,1
-  PRINT D.weap%
   
 g%=GET
 
-
+IF held%>1
   IF g%=3
     w%=w%-1
     dir% = -1
@@ -140,7 +162,7 @@ g%=GET
     w%=w%+1
     dir% = 1
   ENDIF REM DOWN
-
+ENDIF
 
   IF g%=2 REM MODE button
     mode% = mode% + 1
@@ -157,7 +179,8 @@ ENDWH
   IF g%=1 REM Exit
     mode%=4
     CLOSE
-    GOTO CLS::
+    RETURN
+    REM GOTO CLS::
   ELSEIF g%=13 REM Confirm
     FN$=LEFT$(D.Lst$,(14)) REM EXE returns current record Lst$ string
     CLOSE
@@ -165,9 +188,7 @@ ENDWH
 
 
 RETURN FN$
-GOTO CLS::
-
-STOP
+REM STOP
 
 Other::
 CLS
@@ -197,7 +218,8 @@ CLS
 IF ERR=194 :PRINT " The Battery is Low    Switching off     change the Battery" :PAUSE -50 :OFF :STOP
  REM File in use 199
  ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."
- ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in"+Cat$+" Database"
+ ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "Error in the "+Cat$+" Database"
+ PRINT ERR$(ERR)
  ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."
  ELSE PRINT ERR :PRINT ERR$(ERR)
 ENDIF

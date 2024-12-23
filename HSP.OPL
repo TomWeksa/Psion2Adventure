@@ -1,0 +1,76 @@
+hsp:
+
+REM Hotspring handler
+REM hspr% 0=undiscovered (undrawn)
+REM hspr% 1=discovered, first visit(drawn)
+REM hspr% 2=spare state reminder
+
+REM This gets called when you land on the tile
+REM Need to take care of menu items and game menu handling
+
+LOCAL hspmen% REM Menu variable for this program
+LOCAL hsrnd% REM For chance of NPC appearing
+
+hsrnd% = RND*100
+
+IF hspr% = 0 AND hsrnd% >90 REM NPC introduction
+ CLS
+ disptext:("As you sit a moment and contemplate your surroundings, you hear someone approaching.",4)
+ CLS
+ disptext:("A friendly looking man walking on the trail sees you and smiles. 'Hello, traveller!'",4)
+ CLS
+ disptext:("They sit down next to you and ask how you're doing while they open their pack. He pulls out a cloth wrap of food and a big, brown glass bottle.",4)
+ CLS
+ disptext:("'It's hard going on this trail isn't it? Here, share this with me', as he pours you a beer and hands you the cloth wrap, inside are strips of dry meat, seasoned to be sweet, salty and spicy.",4)
+ CLS
+ disptext:("As you talk he mentions a place that he visits from time to time, in a forest. It has bubbling hot pools of water, safe from harm. He marks it on your map before getting up, wishing you luck and carrying on his journey.",4)
+ CLS
+ IF plHealt%<plHealt%
+  plHealt%=plHealt%+3 REM eat meat
+  CLS
+  disptext:("The delicious meat snack makes you feel rejuvinated.",4)
+  CLS
+  IF plHealt%>plMaxHe%
+   plHealt%=plMaxHe%
+  ENDIF
+ ENDIF
+hspr% = 1
+
+ELSEIF hspr% = 1 REM first landing, no quest
+ CLS
+ disptext:("Through the cool air, heavy mist and thick moss covered branches of the forest you see an opening up ahead. As you get closer you hear laughter and splashing of water.",4)
+ CLS
+ disptext:("You approach the clearing and half crouch behind a tree. You see a few people in steaming, hot springs. Relaxing, swimming, drinking. A branch cracks under your foot and the closest group look up toward you.",4)
+ CLS
+ disptext:("'Hey! Come on in!' Smiling and waving 'Don't be scared!'",4)
+ CLS
+ PRINT "Do you approach the"
+ PRINT "hotsprings?"
+ AT 1,4
+ hspmen%=MENUN(2,"Yes,No")
+  IF hspmen%=1
+   hspr% = 2 REM Visited flag set
+   plHealt%=plMaxHe% REM full heal
+   CLS
+   disptext:("You stand up and walk towards the group. You don't know them but they seem happy to see you. One of them in the steaming water says 'Hey, you look tired, get in and relax, no one knows about this place'. ",4)
+   CLS
+   disptext:("You set your belongings down and slide in to the hot, opaque water. Mixing with the sweet steam, the cool woody air fills your lungs.",4)
+   CLS
+   disptext:("After a while you feel rested, relaxed and ready to move on. You shared some food and drink with your new friends. Maybe you'll be back.",4)
+  ELSE
+   CLS
+   disptext:("You back away, maybe it's best to leave these people alone and be on your way.",4)
+   CLS
+  ENDIF
+
+ELSEIF hspr% = 2
+ plHealt%=plMaxHe% REM full heal
+ CLS
+ disptext:("As you approach the steaming hotsprings you hear the beautiful sound of water bubbling gently. Steam appears in the air and you break through to the clearing.",4)
+CLS
+ disptext:("You see your friends from the last time you were here. You wave to each other through the light steam and you set your belongings down and get in to the pools.",4)
+CLS
+ disptext:("After a while of chatting, eating, drinking and relaxing in the steaming hot pools, you feel refreshed and ready to carry on with your adventure. You dry yourself, say goodbye and leave into the thick green, damp forest.",4)
+CLS
+ENDIF
+ 

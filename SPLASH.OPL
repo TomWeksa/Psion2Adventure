@@ -8,8 +8,8 @@ AT 7,1
 PRINT "Welcome"
 AT 9,2
 PRINT "to"
-AT 3,3
-PRINT "Psion2Adventure!"
+AT 7,3
+PRINT "Cursus"
 GET
 CLS
 
@@ -47,8 +47,8 @@ PRINT "the arrow keys"
 GET
 CLS
 
-AT 2,1
-PRINT "Open your menu by"
+AT 3,1
+PRINT "Open the menu by"
 AT 4,2
 PRINT "pressing MODE"
 
@@ -64,6 +64,19 @@ PRINT "in the menu!"
 
 GET
 CLS
+
+AT 3,1
+PRINT "You must travel"
+AT 1,2
+PRINT "southeast to battle"
+AT 2,3
+PRINT "an ancient dread"
+AT 1,4
+PRINT "threatening the land"
+
+GET
+CLS
+
 
 AT 6,2
 PRINT "Good luck"

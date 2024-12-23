@@ -1,0 +1,32 @@
+quest3:
+REM Asherons call
+REM This function uses the GLOBAL quest3% which = 1 on new game.
+
+LOCAL keych% REM book check
+LOCAL lastsl$(1) REM the slot letter last save (B, C or X)
+
+keych% = invtool:(2,"key",0)
+CLS
+
+lastsl$=slot$
+slot: REM calls slot:, writes current slot to slot$
+
+
+IF lastsl$ <> slot$ AND keych%>0 AND quest3%=1 REM Slot has changed and key is present
+ CLS
+ disptext:("You are transported to a completely flat and featureless plain, the sky meets the horizon in a perfect horizontal line in all directions. In front of you is a humming crystal.",4)
+ CLS
+ disptext:("The crystal floats above the ground. It stands a few meters tall. At chest height there is a hole. You look down and your hand is on the crystal key. It looks like a perfect fit.",4)
+ CLS
+ disptext:("You slowly insert the key, as it becomes fully inserted the keyhole becomes smooth. The crystal stops humming and there is no sound but your hearbeat in your ears",4)
+ CLS
+ disptext:("The crystal speaks 'You have a long journey ahead of you. In thanks for making me whole again I bestow upon you a gift to aid you in your battle against the ancient dread rising in the east.'",4)
+ CLS
+ disptext:("The crystal phases out of view in front of you, leaving a suit of armour floating in its place. The armour couldn't have been made by anything you know of, it has no seams or toolmarks. Its surface like an iridescent seashell.",4)
+ CLS
+ disptext:("You reach to take the armour and as your hands touch it, you are transported back to where you were sitting moments before.",4)
+ CLS
+ invtool:(1,"key",-1) REM Remove key
+ invtool:(1,"mage",1) REM Add mageplate to the inventory
+ quest3%=2 REM switch off the quest availability
+ENDIF

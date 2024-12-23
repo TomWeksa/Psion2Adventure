@@ -1,0 +1,122 @@
+quest1:
+
+REM This function uses the GLOBAL quest1% which = 1 on new game.
+
+LOCAL q1menu% REM Menu choice variable
+LOCAL bookch% REM book check
+LOCAL bookrnd% REM random number for this program
+
+bookrnd% = RND*100
+bookch% = invtool:(2,"book",0)
+
+CLS
+
+IF quest1%=1 AND (HOUR > 18 OR HOUR < 8) AND bookch%>0 AND bookrnd%>70
+ disptext:("In the quiet of the night you hear a feint noise, almost musical. You look around but there's nothing to see.",4)
+ CLS
+ disptext:("After a few minutes you realise the sound is coming from your pack. You put your ear to it and the sound becomes crystal clear.",4)
+ CLS
+ disptext:("You know what's making this sound. It's the book you picked up. You pull the heavy, cold book from your pack and the sound becomes louder, like hushed whispers.",4)
+ CLS
+ disptext:("The sound is like nothing you've heard before. It's musical with no tune, in the noise you hear clear words.",4)
+ CLS
+ disptext:("'I knew you before you were born. I have seen this world a thousand times. You must carry me further. You will know when to release me. I will look over you.'",4)
+ CLS
+ disptext:("With that, your mind is clear again and you can only hear a slight whisper. You have been still but hours have passed since you pulled the book from your pack.",4)
+ CLS
+ disptext:("You breathe deeply and the cool night air smells refreshing. You pack the book away again.",4)
+quest1%=2
+
+
+ELSEIF quest1%=2 AND bookch%>0 AND bookrnd%>90
+ CLS
+ disptext:("You are approached by a hooded figure who moves silently over the ground.",4)
+ CLS
+ IF q1delay%>1
+  disptext:("'We meet again.'",4)
+  CLS
+ ENDIF
+ CLS 
+ IF bookch%>0
+  CLS
+  disptext:("They say 'You carry a book in your pack which I must have. I can hear it.'",4)
+  CLS
+disptext:("'I can feel it.'",4)
+  CLS
+disptext:("The hooded stranger waits.",4)
+  CLS
+  PRINT "Do you give the book"
+  PRINT "to the stranger?"
+  AT 1,4
+  q1menu%=MENUN(2,"Yes,No")
+   IF q1menu%=1
+    invtool:(1,"book",-1)
+    disptext:("You dig into your pack and pull out the thick, heavy book. You hand it to the strange figure who extends a bright white hand from under their robe and takes the book.",4)
+    CLS
+    disptext:("They breathe and say 'You will be rewarded in time for your decision, seek your reward in the mountains' before dissapearing without a trace. You aren't sure if this was a dream.",4)
+    q1delay%=0
+    quest1%=3
+   ELSE
+    CLS
+    disptext:("The strange figure breathes in heavily, 'You may regret your unwise decision.' before dissapearing without a trace. You aren't sure if this was a dream.",4)
+    q1delay%=1 REM using this as a flag fortheir memory of meeting the player
+     quest1%=4
+   ENDIF
+ ELSE
+ ENDIF
+
+ELSEIF quest1%=3 REM Reward for giving the book
+ q1delay%=q1delay%+1
+ IF q1delay%>2 AND biome%=2 AND bookrnd%>40 REM small delay and mountains
+  disptext:("You are climbing over dark, sharp grey stone and see lights coming from an opening in the mountain face. As you get closer, you hear a familiar strange tuneless whispering noise on the wind.",4)
+  CLS
+  PRINT "Do you enter?"
+  AT 1,4
+  q1menu%=MENUN(2,"Yes,No")
+   IF q1menu%=1
+    CLS
+    disptext:("You creep inside the opening. Your body blocks any light from outside and as your eyes adjust you can see orange reddish light further in the cave.",4)
+    CLS
+    disptext:("You walk through the cave toward the light. Rocks and sand crunch under your feet, but the tuneless music is very loud and there are clear voices in the noise now.",4)
+    CLS
+    disptext:("You get to the opening and stand in the entrance, a single room is before you. An altar and a hooded figure stand in the middle. Around it are 12 hooded figures, all talking but not to each other.",4)
+    CLS
+    disptext:("The hooded figure a the altar looks up slowly towards you. The other 12 continue. 'Welcome to the Obedience' they say. 'Come' beconing you to the altar.",4)
+    CLS
+    disptext:("You approach he altar of perfectly formed rocks. Atop is the book you gave to the stranger 'your book, we had been looking for this for decades.'",4)
+    CLS
+    disptext:("'I promised you a reward' they say. 'We knew you would come. Allow us to gift our champion' ",4)
+    CLS
+    disptext:("The hooded figure raises his white hand toward your chest, almost touching you. A soundless red light flashes folowed by absolute nothing.",4)
+    CLS
+    disptext:("You feel like you have just woken up. You look around and see you're laying down on a mountain path. You remember a cave entrance here but you can't see it.",4)
+    CLS
+    disptext:("You remember the Obedience and the hooded figure, like a dream. You stand up and you feel noticeably good, almost better but you were unaware of any suffering.",4)
+    CLS
+    plMaxHe%=plMaxHe%*2
+    plHealt%=plMaxHe%
+    quest1%=4
+   ELSE
+    disptext:("Thinking better of it, you look at the opening and the path ahead of you and decide that some things are better left unknown.",4)
+    CLS
+disptext:("As you step back, the opening seals shut, almost like the mountain had healed. The sound stops.",4)
+    CLS
+disptext:("You continue on the mountain trail, thinking of the sound you heard for some time.",4)
+    CLS
+
+
+   ENDIF
+   
+ ENDIF REM q1 stage 3 if
+
+ELSEIF quest1%=4
+ q1delay%=q1delay%+1
+ IF q1delay%>20
+  quest1%=2
+ ENDIF
+
+ELSEIF quest1%=5
+ 
+
+ENDIF
+

@@ -1,0 +1,34 @@
+CURSUS 64
+BOOT      BIN
+ABOUT     OB3   !About, version, thanks
+ADDTOP    OB3   !Used with BOOT to insert GAME in the menu
+AP        OB3   !A tool written by Martin combining AT and PRINT
+BOOT      OB3   !Used to call ADDTOP
+CHNGMAP   OB3   !A function to change a character in the map
+COMB      OB3   !combat minigame
+CURSUS    OB3   !main game loop
+DEATH     OB3   !Called when the player dies to a creature
+DECODE    OB3   !decodes a character in the world map into 7 bits
+DISPTEXT  OB3   !helper fucntion to display long passages of text
+DRWMAP    OB3   !draws the map on the display
+ENSETUP   OB3   !sets up an enemy - type,hp,etc
+FROMLST$  OB3   !used for inventory handling and presentation
+HSP       OB3   !Hotspring tile setup and contents
+INV       OB3   !inventory function- deals with actions on items
+INVTOOL   OB3   !inventory tool, add, remove or count an item
+LOADGAME  OB3   !loads a save gamefile
+LOOT      OB3   !Deals with loot generation and addition to inventory
+MOVEMENT  OB3   !handles keypresses on the world map
+NEWGAME   OB3   !starts a new game, cleans up and initialises databases
+PLYRSTAT  OB3   !function to collect and display player stats
+QUEST1    OB3   !Quest 1 contents
+QUEST2    OB3   !Wolf huntress quest
+QUEST3    OB3   !Mage plate quest
+RECODE    OB3   !counterpart to decode, encodes the bits into a byte
+SAVEGAME  OB3   !creates a savegame file
+SLOT      OB3   !determines which slot the pack is in (B or C) 
+SMOOTH    OB3   !processes the random world map and smooths it
+SPLASH    OB3   !handles the splash screen/preamble/game introduction 
+TDESC     OB3   !generates a tile description based on tile properties
+ITEMS     ODB   !template inventory database to be copied to A
+TRACE66   ODB   !used with SLOT- name chosen because it's unique

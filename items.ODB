@@ -1,13 +1,14 @@
-01	Sword	1	A well worn, well made sword.	1	1	4	0	1	0
-02	Armour	1	Made of metal and leather, this tired armour has seen better days.	1	1	3	1	0	0
-03	Staff	1	A staff, just taller than your head. Sturdy and weathered, it glows ever so slightly.	0	1	2	0	1	0
-04	Vampire tooth	12	Hard won trophies from forsaken creatures. They may have use in alchemy or in trade.	0	0	0	0	0
-05	Cloak	0	A thick wool cloak and hood, the outside is lightly waxed and the inside is warm. A sturdy travel companion.	0	1	2	1	0	0
-06	Goblin acid	0	An ordourless, caustic thick gel from a goblin, kept in the dried sac it was produced in.	0	0	10	0	0	0
-07	Mushroom	3	Delicious and beautiful, there are many varieties of mushroom that grow in all climates.	0	0	2	0	0	1
-08	Strange book	1	The book is as thick as your wrist. It is bound in a heavy, strange leather. The text changes before your eyes. At night, the book sings softly.	0	0	0	0	0	0
-09	Grapes	20	Beautiful, large, almost jewel like. Very sweet and a little sharp.	0	0	1	0	0	1
-10	Oil	1	Likely from squeezed nuts, seeds or an animal.	0	0	1	0	0	1
-11	Rope	1	A long, strong rope.	0	0	0	0	0	0
-12      Wolf claw   0   A thick, strong, sharp claw from a wolf.	0	0	0	0	0	0
-13	Dragon scale	1	A pristine dragon scale, about the size of a dinnerplate. Prized for its strength and lightness.	0	0	0	0	0	0
+01	Worn sword	0	A well worn, well made sword. (4 att)	1	1	4	0	1	0
+02	Leather armour	0	Made of metal and leather, this tired armour has seen better days. (3 def)	1	1	3	1	0	0
+03	Staff	0	A staff, just taller than your head. Sturdy and weathered, it glows ever so slightly. (2 att)	0	1	2	0	1	0
+04	Goblin acid	0	An ordourless, caustic thick gel from a goblin, kept in the dried sac it was produced in. (10 att)	0	0	10	0	0	0
+05	Mushroom	0	Delicious and beautiful, there are many varieties of mushroom that grow in all climates. (2 hp)	0	0	2	0	0	1
+06	Strange book	0	The book is as thick as your wrist. It is bound in a heavy, strange leather. The text changes before your eyes. At night, the book sings softly.	0	0	0	0	0	0
+07	Grapes	2	Beautiful, large, almost jewel like. Very sweet and a little sharp. (1 hp)	0	0	1	0	0	1
+08	Wolf claw	0	A thick, strong, sharp claw from a wolf.	0	0	0	0	0	0
+09	Crystal sword	0	A beautiful crystal sword, light, harder than steel and razor sharp. (12 att)	0	1	12	0	1	0
+10	Rusted dagger	0	What looks like a dull, heavily corroded dagger. It needs a very good clean. (2 att)	0	1	2	0	1	0
+11	Crystal key	0	ckey	0	0	0	0	0	0
+12	Mage plate	0	An ornate set of armour. It shimmers like a pearl in a stream. (10 def)	0	1	10	1	0	0
+13	Serrated sword	0	A sword made from hard wood, wolf claws, natural glues and leather. (8 att)	0	1	8	0	1	0
+14	Meat	3	Flesh from an animal. It sustains and heals you. (3 hp) 	0	0	3	0	0	1

@@ -1,0 +1,15 @@
+ADDTOP:(item$,pos%)
+LOCAL I%, A%(2)
+ IF LEN(item$) >8
+  RAISE 202 :REM Menu too big
+ ENDIF
+POKEB $2187,LEN(item$)
+I%=1
+ WHILE I%<=LEN(item$)
+  POKEB $2187+I%,ASC(MID$(item$,I%,1))
+  I%=I%+1
+ ENDWH
+POKEW $2188+LEN(item$),0
+A%(1)=$3F65 :REM Careful here
+A%(2)=$3900 :REM Careful here
+USR(ADDR(A%()), pos%)

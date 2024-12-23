@@ -2,30 +2,44 @@ drwmap:
 
 LOCAL x%,y%,bi%
 
+UDG 1,4,14,31,21,14,10,10,10 REM boss
+REM UDG 2,21,4,17,17,0,14,17,14 REM hsp
+UDG 2,9,18,9,18,0,14,17,14 REM hsp
+UDG 3,0,4,12,14,14,15,31,31 REM Mountains
+UDG 4,0,14,31,31,14,4,20,21 REM Forest
+UDG 5,0,21,18,2,0,20,8,10 REM Plains
+UDG 6,0,8,20,3,0,6,9,16 REM Desert
+
 y% = 1
-        WHILE y% <= 4
-        AT 1, y%
-        x% = 1
-          WHILE x% <= 20
-          tChar$ = MID$(map$(y%), x%, 1)
-          tAscii% = ASC(tChar$) - 32
-          bi% = tAscii% AND 3  REM Isolating the last two LSBs
+ WHILE y% <= 4
+  AT 1, y%
+  x% = 1
+   WHILE x% <= 20
+    tChar$ = MID$(map$(y%), x%, 1)
+    tAscii% = ASC(tChar$) - 32
+    bi% = tAscii% AND 3  REM Isolating the last two LSBs
+     IF bi% = 0 
+     REM Forest
+     PRINT CHR$(4);
+     REM ELSEIF bi% = 1
+     REM Desert
+     REM PRINT CHR$(6);
+     ELSEIF bi% = 2
+     REM Mountains
+     PRINT CHR$(3);
+     ELSEIF bi% = 3 OR bi% = 1
+     REM Plains 
+     PRINT CHR$(5);
+     ENDIF
+    x% = x% + 1
+   ENDWH  REM End of inner WHILE loop for x%
+  y% = y% + 1
+ ENDWH  REM End of outer WHILE loop for y%
 
+IF hspr% > 0 REM draws once you meet the jerky man or you find it
+ AT hsprx%,hspry%
+ PRINT CHR$(2) 
+ENDIF
 
-            IF bi% = 0 REM add random chance for drawing the tile with different char
-            REM PRINT CHR$(252); REM Forest - also use 251 or 190
-            PRINT CHR$(70);
-            ELSEIF bi% = 1
-            REM PRINT CHR$(245); REM Desert
-            PRINT CHR$(68);
-            ELSEIF bi% = 2
-            REM PRINT CHR$(187); REM Mountains - 188,234
-            PRINT CHR$(77);
-            ELSEIF bi% = 3
-            REM PRINT CHR$(209); REM Plains - also use 193, 
-            PRINT CHR$(80);
-            ENDIF
-          x% = x% + 1
-          ENDWH  REM End of inner WHILE loop for x%
-          y% = y% + 1
-        ENDWH  REM End of outer WHILE loop for y%
+AT 20,4
+PRINT CHR$(1) REM boss battle

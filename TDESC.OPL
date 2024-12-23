@@ -2,7 +2,7 @@ tdesc:
 
 LOCAL  desc1$(22), desc2$(30), desc3$(26)
 REM used in the description of the tile
-LOCAL hour%, weather%, terrain%, randVal%
+LOCAL hour%, weather%, randVal%
 
 REM Generate and store tile description
 REM bit2 is good/bad weather
@@ -13,23 +13,33 @@ REM bit2 is good/bad weather
   desc2$ = ""
   desc3$ = ""
 
-
-          tChar$ = MID$(map$(py%), px%, 1)
-          tAscii% = ASC(tChar$) - 32
-          biome% = tAscii% AND 3  REM Isolating the last two LSBs
+tChar$ = MID$(map$(py%), px%, 1)
+tAscii% = ASC(tChar$) - 32
+biome% = tAscii% AND 3  REM Isolating the last two LSBs
           
     
-  REM Determine the current hour for time slot. hour% is used so the windows of the day can be easily changed in one place
+REM Determine the current hour for time slot. hour% is used so the windows of the day can be easily changed in one place
 
-    IF HOUR < 6 
-        hour% = 0 REM Night
-    ELSEIF HOUR < 12 
-        hour% = 1 REM Morning
-    ELSEIF HOUR < 18 
-        hour% = 2 REM Day
-    ELSE
-        hour% = 3 REM Evening
-    ENDIF
+IF (px%=hsprx%) AND (py%=hspry%) 
+ fuldesc$="A beautiful group of natural hotsprings hidden from the world in a secluded valley."
+GOTO END::
+ENDIF
+
+IF (px%=20) AND (py%=4) 
+ fuldesc$="A dreadful throne atop a mountain of lava. A clouded red sky above you and ash swirls. You feel tiny."
+GOTO END::
+ENDIF
+
+
+IF HOUR < 6 
+ hour% = 0 REM Night
+ ELSEIF HOUR < 12 
+ hour% = 1 REM Morning
+ ELSEIF HOUR < 18 
+ hour% = 2 REM Day
+ELSE
+ hour% = 3 REM Evening
+ENDIF
 
   REM Generate random number for description selection
   randVal% = RND * 3
@@ -79,16 +89,16 @@ REM bit2 is good/bad weather
     ENDIF
 
     REM Deserts
-    ELSEIF biome% = 1 
-         IF randVal% = 0 
-             desc2$ = "a vast desert rolls"
-         ELSEIF randVal% = 1 
-             desc2$ = "endless dunes swirl"
-         ELSE desc2$ = "glassy vast sands shimmer"
-    ENDIF
+    REM ELSEIF biome% = 1 
+    REM      IF randVal% = 0 
+    REM          desc2$ = "a vast desert rolls"
+    REM      ELSEIF randVal% = 1 
+    REM          desc2$ = "endless dunes swirl"
+    REM      ELSE desc2$ = "glassy vast sands shimmer"
+    REM ENDIF
 
     REM Plains
-    ELSEIF biome% = 3 
+    ELSEIF biome% = 3 OR biome% = 1
          IF randVal% = 0 
              desc2$ = "rolling plains dance"
          ELSEIF randVal% = 1 
@@ -151,4 +161,5 @@ REM bit2 is good/bad weather
 
   fulDesc$ = desc1$ + " " + desc2$ + " " + desc3$
   
+END::
   

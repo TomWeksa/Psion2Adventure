@@ -6,11 +6,22 @@ REM Could add more enemies and generate by biome - biome specific enemies
 enType% = RND * 4 REM Randomly select from 0 to 3 representing 4 enemy types per time window
 
 
-IF HOUR > 18 OR HOUR < 8 REM Night time creatures
- IF enType% = 0
+IF (px%=20) AND (py%=4) 
+ enName$ = "Ancient demon"
+ enHealt% = 60 + RND * 30  REM Base health 25, plus up to 10
+ enAtt% = 10 + RND * 5   REM Base attack 3, plus up to 5 
+
+ELSEIF HOUR > 18 OR HOUR < 8 REM Night time creatures
+ IF enType% = 0 AND biome%=3 REM plains
   enName$ = "Wolf"
   enHealt% = 25 + RND * 10  REM Base health 25, plus up to 10 points of randomness
   enAtt% = 3 + RND * 5   REM Base attack 3, plus up to 5 points of randomness
+
+ELSEIF enType% = 0
+  enName$ = "Big rat"
+  enHealt% = 15 + RND * 10  REM Base health 25, plus up to 10 points of randomness
+  enAtt% = 3 + RND * 5   REM Base attack 3, plus up to 5 points of randomness
+
  ELSEIF enType% = 1
   enName$ = "Orc"
   enHealt% = 35 + RND * 15  REM Base health 35, plus up to 15 points of randomness
@@ -26,7 +37,11 @@ IF HOUR > 18 OR HOUR < 8 REM Night time creatures
  ENDIF
 
 ELSE REM Day creatures
- IF enType% = 0
+ IF enType% = 0 AND biome%=3 REM plains
+  enName$ = "Wolf"
+  enHealt% = 25 + RND * 10  REM Base health 25, plus up to 10 points of randomness
+  enAtt% = 3 + RND * 5   REM Base attack 3, plus up to 5 points of randomness
+ELSEIF enType% = 0
   enName$ = "Goblin"
   enHealt% = 25 + RND * 10  REM Base health 25, plus up to 10 points of randomness
   enAtt% = 3 + RND * 5   REM Base attack 3, plus up to 5 points of randomness
@@ -44,3 +59,4 @@ ELSEIF enType% = 3
  enAtt% = 10 + RND * 10  REM Base attack 10, plus up to 10 points of randomness
 ENDIF
 ENDIF
+

@@ -232,7 +232,7 @@ py% = 1
    px% =  px% + 1
 
    progr% = progr%+1 REM One complete tile has been smoothed -                progress increased by 1
-   CLS
+   PRINT CHR$(15)
    PRINT progr% ; "/80"
    ENDWH
  py% = py% + 1

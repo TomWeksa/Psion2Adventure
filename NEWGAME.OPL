@@ -7,22 +7,19 @@ GLOBAL i% REM for looping through biome decoding of neighbours
 REM GLOBAL rnd% REM to decide 
 LOCAL path$(14)
 
+PRINT "Building first world"
 REM Clear any old information from old plays/saves
-CLS
 IF EXIST ("A:items")
  DELETE "A:items"
- PRINT "Old inv. deleted"
- PAUSE -10
+ ENDIF
+IF EXIST ("A:saveg1")
+ DELETE "A:saveg1"
+ DELETE "A:saveg2"
 ENDIF
-IF EXIST ("A:saveg")
- DELETE "A:saveg"
- PRINT "Old game deleted"
- PAUSE -10
-ENDIF
-
+slot:
 REM Set up databases to be used by the game
 path$=slot$+":items"
-COPY path$,"A:" REM 
+COPY path$,"A:"  
 
 REM This creates a new world map, populating map$ and finally sets the player position
 REM using px and py as counters before they are used in the game
@@ -30,8 +27,6 @@ REM using px and py as counters before they are used in the game
 REM create a world then smooth it out with averaging
 REM go through each tile and look at its neihbours
 REM 70% to count each type of biome and change it to the most common or do nothing
-
-PRINT "Building first world"
 py% = 1
  WHILE py% <= 4
   px% = 1
@@ -46,7 +41,7 @@ py% = 1
 REM The world map is populated randomly
 REM Now go through each tile and see what its neihbours are and change them
 CLS
-PRINT "Smoothing world"
+PRINT "Ageing world"
 smooth:
 
 REM Initialise the player position, random but biased to the north west quarter
@@ -60,10 +55,34 @@ recode: REM recoding the tile with bit 4 as 0 effectively clearing the enemy
 chngmap:(px%,py%,tChar$)
 
 
+REM Initialising player stats
 plHealt% = 10
-maxplh% = plHealt%
+plMaxHe% = plHealt% REM sets max health as starting health
 plweap$="Fists"
 plarm$="None"
 plAtt% = 2
 plDef% = 0
 plMoves% = 0 REM Initialise player stats
+startX% = px% REM sets the start X and Y
+startY% = py%
+
+REM Initialising quests
+quest1% = 1
+quest2% = 1
+quest3% = 1
+hsprx% = (RND * 6)+6 REM Puts the hotspring in the middleish map
+hspry% = (RND * 3)+1
+hspr% = 0 REM hotspring not active
+REM Remove any combat flag on the hotspring
+decode:(hsprx%,hspry%)
+bit4% = 0 
+recode: REM recoding the tile with bit 4 as 0
+chngmap:(hsprx%,hspry%,tChar$)
+
+REM Demon boss
+decode:(20,4)
+bit4% = 1
+recode: REM recoding the tile with bit 4 as 1
+chngmap:(20,4,tChar$)
+
+

@@ -1,0 +1,13 @@
+about:
+
+REM This shows information about the game 
+
+CLS
+disptext:("In Cursus the player must overcome the challenge of reaching the ancient, dreadful evil in the south east which is poisoning the land.",4)
+CLS
+disptext:("The player can defeat enemies and meet allies to help them succeed. Some enemies will only emerge during the night. Some only dwell in certain terrains. Many will drop helpful loot. All wish death upon you.",4)
+CLS
+disptext:("A special thank you to Martin Reid for his time, patience and expert advice. Thank you to Jaap Scherphuis for a wealth of information and tools.",4)
+CLS
+disptext:("Cursus v0.1 23rd December 2024 written by Tom Askew. GitHub TomWeksa. Merry Christmas Joe.",4)
+CLS

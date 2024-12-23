@@ -25,6 +25,7 @@ LOCAL disp$(200)
 LOCAL mx% REM count of number of records in DB
 LOCAL i% REM used in while loops
 LOCAL ef% REM To check EOF
+LOCAL men% REM Menu variable
 
 ONERR PROBLEM::
 OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
@@ -42,6 +43,7 @@ mx%=count REM count returns the number of records in the current file.
   RETURN ret%
 
  ELSEIF dbm%=2 REM only return how many of the item is in inv
+  f% = FIND(a$)
   ret%=D.Amnt%
   CLOSE
   RETURN ret%
@@ -49,29 +51,33 @@ mx%=count REM count returns the number of records in the current file.
  ELSEIF dbm%=3 REM Use the item
   f% = FIND(a$)
   CLS
-  PRINT "Finding ";a$
-  PRINT D.Lst$
-  PRINT D.caneq%
-  PRINT D.armour%
-  PRINT f%
-  GET
-
   IF D.food%=1
-   IF plHealt%<maxplh%
+   IF plHealt%<plMaxHe%
     CLS
     low$=LOWER$(a$)
     CLS
     disp$ = "You eat the " + low$ + "."
     disptext:(disp$,4)
     CLS
-    plHealt%=plHealt%+D.statv%
-     IF plHealt%>=maxplh%
-      plHealt%=maxplh%
+    D.Amnt%=D.Amnt%-1
+     IF D.Amnt%<0 
+      REM to ensure no negative values of held items
+      D.Amnt%=0
+      UPDATE
      ENDIF
-    ELSE
+    plHealt%=plHealt%+D.statv%
+     IF plHealt%>plMaxHe%
+      plHealt%=plMaxHe%
+     ENDIF
+    PRINT "Health : "; plHealt%;"/";plMaxHe% 
+    GET
+    UPDATE
+    CLOSE
+    RETURN 
+  
+   ELSE
      CLS
-     PRINT "You are at maximum health"
-     GET
+     disptext:("You are at maximum health",4)
      CLS
    ENDIF
   ENDIF
@@ -100,6 +106,54 @@ mx%=count REM count returns the number of records in the current file.
    ENDIF
   ENDIF
   
+ IF D.Lst$="Goblin acid"
+  IF cmbstat% = 0 REM Not in combat
+   f% = FIND("dagger")
+    IF f% = 0
+     REM Do nothing
+    ELSE
+     CLS
+     PRINT "Clean the dagger?"
+     AT 1,4
+     men%=MENUN(2,"Yes,No")
+      IF men%=1
+       disptext:("You carefully break open the hard sac, acid pours on to the dagger. As the smoke clears you see the dagger isn't a dagger!",4)
+      CLS
+      disptext:("Wiping it down, you see it's a blue crystal, almost like a key.",4)
+      CLS
+      disptext:("You wrap it in a cloth andput it safely in your pack.",4)
+      CLS
+
+      D.Amnt%=D.Amnt%-1
+      UPDATE
+      CLOSE
+      OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
+      f% = FIND("Goblin")
+      D.Amnt%=D.Amnt%-1
+      UPDATE
+      CLOSE
+      OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
+      f% = FIND("key")
+      D.Amnt%=D.Amnt%+1     
+      UPDATE
+      CLOSE
+      RETURN
+
+      ENDIF
+
+    ENDIF
+  ELSEIF cmbstat% = 1
+   CLS
+   disptext:("You throw the sac at the enemy, acid sears them and you see yellow smoke ribbon from their flesh!",4)
+   enHealt%=enHealt%-D.statv%
+   CLS
+   D.Amnt%=D.Amnt%-1
+  ENDIF 
+ UPDATE
+ CLOSE
+ RETURN
+ ENDIF REM closing loop IF D.Lst$="Goblin acid"
+
   CLOSE
   RETURN ret%
  ELSE
@@ -116,6 +170,7 @@ IF ERR=194 :PRINT " The Battery is Low    Switching off     change the Battery" 
  REM File in use 199
  ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."
  ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in item Database"
+ PRINT ERR$(ERR)
  ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."
  ELSE PRINT ERR :PRINT ERR$(ERR)
 ENDIF
