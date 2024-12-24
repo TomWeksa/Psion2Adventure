@@ -12,8 +12,10 @@ REM Inform the player
 
 LOCAL lrnd% REM random number to use in loot drop chance
 LOCAL bookch% REM book check
+LOCAL dagch% REM Check for strange dagger
 
 bookch% = invtool:(2,"book",0) REM checking for the book in the inv
+dagch% = invtool:(2,"dagger",0) REM checking for the book in the inv
 lrnd% = RND*100
 
 CLS
@@ -90,7 +92,7 @@ ELSEIF lType$ = "Big rat"
 
 
  ELSEIF lType$ = "Troll"
-  IF (lrnd%+diff%)>60
+  IF (lrnd%+diff%)>60 AND dagch%=0
    invtool:(1,"dagger",1)
    disptext:("You find a strange dagger.",4)
   ELSEIF (lrnd%+diff%)>30
@@ -105,7 +107,7 @@ ELSEIF lType$ = "Big rat"
   IF (lrnd%+diff%)>80
    invtool:(1,"crystal",1)
    disptext:("You are able to pry a crystalline shard from the magnificent corpse of the dragon.",4)
-  ELSEIF (lrnd%+diff%)>20
+  ELSEIF (lrnd%+diff%)>20 AND dagch%=0
    invtool:(1,"dagger",1)
    disptext:("You find a strange dagger.",4)
 

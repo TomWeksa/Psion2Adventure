@@ -10,9 +10,9 @@ LOCAL npcrnd%
 npcrnd% = RND*100
 clawch% = invtool:(2,"claw",0)
 
-IF quest2% = 1 AND npcrnd%>40 AND biome%=3 REM Plains hunter start
+IF quest2% = 1 AND npcrnd%>80 AND biome%=3 REM Plains hunter start
  CLS
- disptext:("Walking over a rolling grassy hill you see a trapper. She sees you and waves. You spend he next few minutes walking to each other.",4)
+ disptext:("Walking over a rolling grassy hill you see a trapper. She sees you and waves. You spend the next few minutes walking to each other.",4)
  CLS
  disptext:("You meet on the side of a sheltered rocky outcrop of a small hill. 'Hello stranger! I'm tracking wolves. There are many around here.' she says",4)
  CLS

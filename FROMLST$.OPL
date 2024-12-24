@@ -29,15 +29,15 @@ dir% = 1 REM this will cause the menu filter to start in the right direction of 
 mx%=count REM count returns the number of records in the current file.
 
 held%=0
-icnt%=1
+icnt%=0
 FIRST
- DO
+ WHILE icnt%<>mx%
   IF D.Amnt%>=1
    held%=held%+1
   ENDIF
   icnt%=icnt%+1
   NEXT
- UNTIL icnt%=mx%
+ ENDWH
 
 PRINT CHR$(14)
 AT 1,1
@@ -58,8 +58,6 @@ ENDIF
 
 
 WHILE g%<>1 AND g%<>13 REM Until ON/CLEAR OR EXE
-
-
 
 POSITION w%
 
@@ -87,32 +85,31 @@ IF dir% > 0
  IF w% > mx%
   w% = 1
  ENDIF
-POSITION w%
+ POSITION w%
  WHILE D.Amnt% < 1
   IF w% > mx%
    w% = 1
   ENDIF
-   w% = w% + 1
-   POSITION w%
+  w% = w% + 1
+  POSITION w%
  ENDWH
 ENDIF
 
 REM This finds the next valid item above the item in focus
   p% = w%-1
   IF p% < 1
-        p% = mx%
-      ENDIF
-
+   p% = mx%
+  ENDIF
   POSITION p%
-    WHILE D.Amnt% < 1
-    p% = p% - 1
-      IF p% < 1
-        p% = mx%
-      ENDIF
-    POSITION p%
-    ENDWH
+  WHILE D.Amnt% < 1
+   p% = p% - 1
+   IF p% < 1
+    p% = mx%
+   ENDIF
+  POSITION p%
+  ENDWH
 
-REM This finds the next valid item below he item in focus
+REM This finds the next valid item below the item in focus
   v% = w%+1
 IF v% > mx%
         v% = 1
