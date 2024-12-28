@@ -11,7 +11,7 @@ PRINT "Building first world"
 REM Clear any old information from old plays/saves
 IF EXIST ("A:items")
  DELETE "A:items"
- ENDIF
+ENDIF
 IF EXIST ("A:saveg1")
  DELETE "A:saveg1"
  DELETE "A:saveg2"
@@ -80,6 +80,7 @@ recode: REM recoding the tile with bit 4 as 0
 chngmap:(hsprx%,hspry%,tChar$)
 
 REM Demon boss
+boss%=1
 decode:(20,4)
 bit4% = 1
 recode: REM recoding the tile with bit 4 as 1

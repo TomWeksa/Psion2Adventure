@@ -9,5 +9,7 @@ disptext:("The player can defeat enemies and meet allies to help them succeed. S
 CLS
 disptext:("A special thank you to Martin Reid for his time, patience and expert advice. Thank you to Jaap Scherphuis for a wealth of information and tools.",4)
 CLS
-disptext:("Cursus v0.1 23rd December 2024 written by Tom Askew. GitHub TomWeksa. Merry Christmas Joe.",4)
+disptext:("Cursus v0.3 28th December 2024 written by Tom Askew. GitHub TomWeksa.",4)
+CLS
+disptext:("Merry Christmas Joe.",4)
 CLS

@@ -41,7 +41,7 @@ decode:(px%,py%)
 tdesc: REM tile description generation
 
 CLOSE REM Close a:saveg1, no further actions required
-OPEN "a:saveg2", A, wep$, arm$, q1%, q1cnt%, q2%, q2cnt%, htspx%, htspy%, hsp%, slt$, q3%
+OPEN "a:saveg2", A, wep$, arm$, q1%, q1cnt%, q2%, q2cnt%, htspx%, htspy%, hsp%, slt$, q3%, b%
 FIRST
 REM Load equipped items
 plweap$ = A.wep$ REM Player's weapon
@@ -55,6 +55,7 @@ hspry% = A.htspy%
 hspr% = A.hsp%
 slot$ = A.slt$
 quest3% = A.q3%
+boss%=A.b%
 
 CLOSE REM Close a:saveg2, no further actions required
 CLS

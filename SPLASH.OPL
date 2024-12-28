@@ -55,12 +55,12 @@ PRINT "pressing MODE"
 GET
 CLS
 
-AT 3,1
-PRINT "You are able to"
-AT 2,2
-PRINT "save your progress"
-AT 5,3
-PRINT "in the menu!"
+AT 2,1
+PRINT "Progress will save"
+AT 4,2
+PRINT "when you exit"
+AT 6,3
+PRINT "the game"
 
 GET
 CLS

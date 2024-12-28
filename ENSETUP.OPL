@@ -9,7 +9,7 @@ enType% = RND * 4 REM Randomly select from 0 to 3 representing 4 enemy types per
 IF (px%=20) AND (py%=4) 
  enName$ = "Ancient demon"
  enHealt% = 60 + RND * 30  REM Base health 25, plus up to 10
- enAtt% = 10 + RND * 5   REM Base attack 3, plus up to 5 
+ enAtt% = 10 + RND * 5   REM Base attack 10, plus up to 5 
 
 ELSEIF HOUR > 18 OR HOUR < 8 REM Night time creatures
  IF enType% = 0 AND biome%=3 REM plains

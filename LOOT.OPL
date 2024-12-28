@@ -66,11 +66,12 @@ ELSEIF lType$ = "Big rat"
    disptext:("As the dust settles you notice a faint humming coming from a leather wrapped pack the vampire was holding. You open it to reveal a heavy, strange book. You put it in your pack and quickly leave.",4)
    ELSEIF lrnd%>70 
    disptext:("You find a strange staff. You could wield it.",4)
+   invtool:(1,"staff",1)
    ELSEIF (lrnd%+diff%)>30
    invtool:(1,"worn",1)
    disptext:("You find a worn sword.",4)
    ELSEIF (lrnd%+diff%)>20
-   invtool:(1,"leather ",1)
+   invtool:(1,"leather armour",1)
    disptext:("You find some leather armour.",4)
 
   ELSE 

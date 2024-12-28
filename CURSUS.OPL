@@ -39,6 +39,7 @@ GLOBAL quest3%
 GLOBAL hsprx% REM Hotspring loc
 GLOBAL hspry%
 GLOBAL hspr% REM Hotspring active
+GLOBAL boss% REM If the boss is dead used to draw
 
 
 cmbstat% = 0 REM combat state is set to false
@@ -75,7 +76,7 @@ REM ****** NEW GAME CALL ******
 REM ****** IN GAME MENU CALL ******   
  ELSEIF state% = 2
   CLS
-  menu%=MENU("Map,Area,Inventory,Me,Exit,Save")   
+  menu%=MENU("Map,Area,Inventory,Me,Exit")   
    IF menu% = 1 REM Map
     state% = 6 REM Draw map
    ELSEIF menu% = 2 REM Area
@@ -94,10 +95,8 @@ REM ****** PLAYER STAT MENU CALL ******
     state% = 10
 
    ELSEIF menu% = 5 REM Doesn't exist yet
+    savegame:
     state% = 99
-
-   ELSEIF menu% = 6 REM Player stats
-    state% = 11
         
  ELSE state% = 6 REM Continue game
 ENDIF
@@ -181,12 +180,6 @@ ELSEIF state% = 10
 
 plyrstat:(2)
 
-REM ****** SAVE GAME ******
-ELSEIF state% = 11
-
-  savegame:
-  CLS
-  state% = 2 REM back to in game menu
 
 REM ****** LOAD GAME ******
 ELSEIF state% = 12

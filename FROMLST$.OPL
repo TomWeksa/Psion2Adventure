@@ -21,17 +21,22 @@ ENDIF
 mode% = 1 REM init state
 
 OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%
+
 fo%=1
 
 w% = 1
+REM p%=-1
+REM v%=2
+
 dir% = 1 REM this will cause the menu filter to start in the right direction of travel(ascending from the lowest position)
 
 mx%=count REM count returns the number of records in the current file.
 
 held%=0
 icnt%=0
+
 FIRST
- WHILE icnt%<>mx%
+ WHILE icnt%<>mx% REM going through each record to see how many unique items are held
   IF D.Amnt%>=1
    held%=held%+1
   ENDIF
@@ -58,39 +63,35 @@ ENDIF
 
 
 WHILE g%<>1 AND g%<>13 REM Until ON/CLEAR OR EXE
-
 POSITION w%
 
 REM The next 2 IF statements find the next valid item to focus on in the menu
 
-IF dir% < 0
+IF dir% < 0 REM Up
  IF w% < 1
   w% = mx%
  ENDIF
 POSITION w%
+
  WHILE D.Amnt% < 1
+  w% = w% - 1
   IF w% < 1
    w% = mx%
   ENDIF
-   w% = w% - 1
-   POSITION w%
+  POSITION w%
  ENDWH
 ENDIF
 
-IF w% > mx%
- w% = 1
-ENDIF
-
 IF dir% > 0
- IF w% > mx%
-  w% = 1
- ENDIF
- POSITION w%
+REM IF w% > mx%
+REM  w% = 1
+REM ENDIF
+REM POSITION w%
  WHILE D.Amnt% < 1
+  w% = w% + 1
   IF w% > mx%
    w% = 1
   ENDIF
-  w% = w% + 1
   POSITION w%
  ENDWH
 ENDIF
@@ -110,34 +111,38 @@ REM This finds the next valid item above the item in focus
   ENDWH
 
 REM This finds the next valid item below the item in focus
-  v% = w%+1
-IF v% > mx%
-        v% = 1
-ENDIF
-
+ v% = w%+1
+ IF v% > mx%
+  v% = 1
+ ENDIF
+ POSITION v%
+ WHILE D.Amnt% < 1
+  v% = v% + 1
+   IF v% > mx%
+    v% = 1
+   ENDIF
   POSITION v%
-  WHILE D.Amnt% < 1
-    v% = v% + 1
-      IF v% > mx%
-        v% = 1
-      ENDIF
-  POSITION v%
-  ENDWH
+ ENDWH
 
-  dir% = 0 REM Init dir% ready for use 
+REM Debug
+REM CLS
+REM PRINT p%
+REM PRINT w%
+REM PRINT v%
+REM GET
 
+
+REM dir% = 0 REM Init dir% ready for use 
 
 IF held%>1
-  POSITION v% REM Next focus
-  AT 1,4
-  PRINT CHR$(23)+"      "+LEFT$(D.Lst$,14)
+ POSITION v% REM Next focus
+ AT 1,4
+ PRINT CHR$(23)+"      "+LEFT$(D.Lst$,14)
 ENDIF
 
   POSITION w% REM the item at POS w%
   AT 1,3
-
-
-  IF mode% = 1
+    IF mode% = 1
     PRINT CHR$(22) + "Use > "+ LEFT$(D.Lst$,14)
   ELSEIF mode% = 2
     PRINT CHR$(22) + "Drop> "+ LEFT$(D.Lst$,14)
@@ -146,7 +151,7 @@ ENDIF
   ENDIF
   AT 1,2
   PRINT CHR$(26) + "Holding " ; D.Amnt%
-  
+
 g%=GET
 
 IF held%>1
@@ -170,7 +175,7 @@ ENDIF
 REM MODE changes the action on the item
 
 idesc$ = D.locdesc$
-equi%=D.eq%
+REM equi%=D.eq%
 ENDWH
 
   IF g%=1 REM Exit

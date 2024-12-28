@@ -7,10 +7,6 @@ IF EXIST ("a:saveg2")
 DELETE ("a:saveg2")
 ENDIF
 
-REM Determine which slot the game pack is in
-slot:
-
-    
 REM Check if file exists, then create or open accordingly
  IF NOT EXIST("a:saveg1")
   CLS
@@ -39,7 +35,7 @@ A.py% = py%        : REM Current Y coordinate
 REM Append to file
 APPEND
 CLOSE
-OPEN "a:saveg2", A, wep$, arm$, q1%, q1cnt%, q2%,q2cnt%, htspx%, htspy%, hsp%, slt$, q3%
+OPEN "a:saveg2", A, wep$, arm$, q1%, q1cnt%, q2%,q2cnt%, htspx%, htspy%, hsp%, slt$, q3%, b%
 FIRST
 REM Assign values to each field from saveg1
 A.wep$ = plweap$ REM Player's weapon
@@ -53,10 +49,12 @@ A.htspy% = hspry%
 A.hsp% = hspr%
 A.slt$ = slot$
 A.q3% = quest3%
+A.b%=boss%
 
 REM Append to file
 APPEND
 CLOSE
 CLS
-disptext:("Game saved successfully!",4)
+PRINT "Game saved"
+PRINT "successfully!"
 REM PAUSE -50

@@ -9,6 +9,7 @@ CLS
 disptext:("Your consciousness returns to your real world.",4)
 GET
  IF EXIST ("A:saveg1")
+  CLS
   disptext:("You can load your saved game or start another!",4)
  ENDIF
 STOP

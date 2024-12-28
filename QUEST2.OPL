@@ -7,26 +7,29 @@ LOCAL q2menu%
 LOCAL clawch% REM Checks for wolf claws
 LOCAL npcrnd%
 
+q2delay%=q2delay%+1
 npcrnd% = RND*100
 clawch% = invtool:(2,"claw",0)
 
-IF quest2% = 1 AND npcrnd%>80 AND biome%=3 REM Plains hunter start
+IF quest2% = 1 AND npcrnd%>80 AND biome%=3 AND q2delay%>4
+REM Plains hunter start
+q2delay%=0
  CLS
  disptext:("Walking over a rolling grassy hill you see a trapper. She sees you and waves. You spend the next few minutes walking to each other.",4)
  CLS
- disptext:("You meet on the side of a sheltered rocky outcrop of a small hill. 'Hello stranger! I'm tracking wolves. There are many around here.' she says",4)
+ disptext:("You meet on the side of a sheltered rocky outcrop of a small hill. 'Hello stranger! I'm tracking wolves. There are many around here.' she says.",4)
  CLS
  disptext:("'I've been hunting these wolves for years and I'm pretty resourceful with what I find. You look like you're on an adventure.'",4)
  CLS
- disptext:("'Tell you what, if you find me and you have 12 wolf claws I'll make you a sword that my mum used to make for trade.'",4)
+ disptext:("'Tell you what, if you find me and you have 3 wolf claws I'll make you a sword that my mum used to make.'",4)
  CLS
  disptext:("'You can find me where you find wolves; on the plains.'",4)
  CLS
 
- IF clawch%>11
- disptext:("'Oh, you have 12 claws now? Perfect!",4)
+ IF clawch%>2
+ disptext:("'Oh, you have 3 claws now? Perfect!",4)
  CLS
- PRINT "Give 12 claws?"
+ PRINT "Give 3 claws?"
   AT 1,4
   q2menu%=MENUN(2,"Yes,No")
 
@@ -37,7 +40,7 @@ IF quest2% = 1 AND npcrnd%>80 AND biome%=3 REM Plains hunter start
     CLS
     disptext:("You shake hands as friends before she nods and follows the trail she was following.",4)
     CLS
-    invtool:(1,"claw",-12)
+    invtool:(1,"claw",-3)
     invtool:(1,"serrated",1)
     quest2%=2 REM progress quest to stage 2
    ELSE
@@ -50,7 +53,8 @@ IF quest2% = 1 AND npcrnd%>80 AND biome%=3 REM Plains hunter start
  CLS
  ENDIF
 
-ELSEIF quest2% = 2 AND npcrnd%>45 AND biome%=3 REM AND (plHealt%<(plMaxHe%/2))
+ELSEIF quest2% = 2 AND npcrnd%>45 AND biome%=3 AND (plHealt%<(plMaxHe%/2)) AND q2delay%>4
+q2delay%=0
  disptext:("You see your wolf hunter friend in a valley washing something in the stream. She looks up, smiles and waves.",4)
  CLS
  disptext:("'It's been a while, you look tired. Come and sit for a while I have something in my pack that will make you feel better'",4)

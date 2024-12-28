@@ -41,5 +41,7 @@ IF hspr% > 0 REM draws once you meet the jerky man or you find it
  PRINT CHR$(2) 
 ENDIF
 
+IF boss%=1
 AT 20,4
 PRINT CHR$(1) REM boss battle
+ENDIF
